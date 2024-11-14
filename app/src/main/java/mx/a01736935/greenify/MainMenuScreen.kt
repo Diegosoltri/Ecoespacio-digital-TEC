@@ -116,6 +116,7 @@ fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifi
     )
 }
 
+/*
 @Composable
 fun BottomNavigationBar() {
     BottomAppBar(
@@ -145,7 +146,8 @@ fun BottomNavigationBar() {
         }
     }
 }
-
+*/
+/*
 @Composable
 fun CameraButton() {
     FloatingActionButton(
@@ -161,21 +163,12 @@ fun CameraButton() {
         )
     }
 }
-
+*/
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainMenuView(navController: NavController) {
     var selectedCategory by remember { mutableStateOf("All") }
 
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar()
-        },
-        floatingActionButton = {
-            CameraButton()
-        },
-        floatingActionButtonPosition = FabPosition.Center, // Posicionamos el FAB al centro
-    ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Row (
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -192,7 +185,7 @@ fun MainMenuView(navController: NavController) {
                     Image(
                         painter = painterResource(id = R.drawable.gadiro),
                         contentDescription = "Profile Photo",
-                        modifier = Modifier.width(60.dp)
+                        modifier = Modifier.width(40.dp)
                     )
                 }
 
@@ -205,4 +198,3 @@ fun MainMenuView(navController: NavController) {
                 EcoChallengeGrid(challenges = DataSource().loadEcoChallenges())
             }
         }
-}

@@ -51,8 +51,8 @@ fun CreateAccountView(navController: NavController) {
     ) {
         // Imagen superior
         Image(painter = logoGreenify, contentDescription = "Greenify",
-            contentScale = ContentScale.FillWidth, modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.height(20.dp))
+            contentScale = ContentScale.FillWidth, modifier = Modifier.width(80.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         // Nombre
         Text(text = "Nombre", fontSize = 18.sp, color = Color.Black)
@@ -64,7 +64,7 @@ fun CreateAccountView(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Correo
         Text(text = "Correo", fontSize = 18.sp, color = Color.Black)
@@ -76,7 +76,7 @@ fun CreateAccountView(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Contraseña
         Text(text = "Contraseña", fontSize = 18.sp, color = Color.Black)
@@ -89,7 +89,7 @@ fun CreateAccountView(navController: NavController) {
             visualTransformation = PasswordVisualTransformation() // Para ocultar la contraseña
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Confirmar Contraseña
         Text(text = "Confirmar Contraseña", fontSize = 18.sp, color = Color.Black)
@@ -102,14 +102,14 @@ fun CreateAccountView(navController: NavController) {
             visualTransformation = PasswordVisualTransformation()
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         // Botón de registro
         Button(onClick = { navController.navigate("forgotPasswordScreen") }, modifier = Modifier.fillMaxWidth()) {
             Text("Registrarse")
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         // Link para iniciar sesión
         Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
@@ -118,11 +118,11 @@ fun CreateAccountView(navController: NavController) {
             Text("Inicia Sesión")
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         // Redes sociales
         Text(text = "O inicia sesión con redes sociales", fontSize = 14.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Row {
             Image(painter = logoFb, contentDescription = "Facebook", modifier = Modifier.size(50.dp))
             Spacer(modifier = Modifier.width(20.dp))

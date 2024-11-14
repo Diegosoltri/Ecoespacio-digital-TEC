@@ -10,3 +10,4 @@ data class EcoChallenge(
     @StringRes val bountyResId: Int
 )
 
+
