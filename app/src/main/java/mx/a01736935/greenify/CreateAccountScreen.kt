@@ -26,12 +26,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 
+/* navController: NavController,*/
 @Composable
-fun CreateAccountView(navController: NavController) {
+fun CreateAccountView(
+    onRegisterClick: (email: String, password: String) -> Unit,
+
+) {
     val logoGreenify = painterResource(id = R.drawable.greenify)
     val logoFb = painterResource(id = R.drawable.facebook)
     val logoGoogle = painterResource(id = R.drawable.google)
@@ -50,11 +54,16 @@ fun CreateAccountView(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         // Imagen superior
-        Image(painter = logoGreenify, contentDescription = "Greenify",
-            contentScale = ContentScale.FillWidth, modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.height(20.dp))
+        Image(
+            painter = logoGreenify,
+            contentDescription = "Greenify",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .height(50.dp) // Tamaño reducido de la imagen
+                .padding(bottom = 16.dp)
+        )
 
-        // Nombre
+       /* // Nombre
         Text(text = "Nombre", fontSize = 18.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -62,7 +71,7 @@ fun CreateAccountView(navController: NavController) {
             onValueChange = { name = it },
             placeholder = { Text("Ingrese su nombre") },
             modifier = Modifier.fillMaxWidth()
-        )
+        )*/
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -90,7 +99,7 @@ fun CreateAccountView(navController: NavController) {
         )
 
         Spacer(modifier = Modifier.height(10.dp))
-
+/*
         // Confirmar Contraseña
         Text(text = "Confirmar Contraseña", fontSize = 18.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
@@ -101,21 +110,22 @@ fun CreateAccountView(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
-
+*/
         Spacer(modifier = Modifier.height(20.dp))
 
         // Botón de registro
-        Button(onClick = { navController.navigate("forgotPasswordScreen") }, modifier = Modifier.fillMaxWidth()) {
+        /*Button(onClick = { navController.navigate("forgotPasswordScreen") }, modifier = Modifier.fillMaxWidth()) {
             Text("Registrarse")
-        }
-
+        }*/
+        Button(onClick = { onRegisterClick(email, password) }, modifier = Modifier.fillMaxWidth()) {
+        Text("Registrarse")}
         Spacer(modifier = Modifier.height(20.dp))
 
         // Link para iniciar sesión
         Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {(navController.navigate("initialScreen"))}, modifier = Modifier.fillMaxWidth()) {
-            Text("Inicia Sesión")
+       /* Button(onClick = {(navController.navigate("initialScreen"))}, modifier = Modifier.fillMaxWidth()) {
+            Text("Inicia Sesión")*/
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -129,4 +139,13 @@ fun CreateAccountView(navController: NavController) {
             Image(painter = logoGoogle, contentDescription = "Google", modifier = Modifier.size(50.dp))
         }
     }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCreateAccountView() {
+    // Llamas a tu Composable y pasas los parámetros necesarios.
+    CreateAccountView(onRegisterClick = { email, password ->
+        // Simular el comportamiento de registro (solo un log en este caso).
+        println("Email: $email, Password: $password")
+    })
 }

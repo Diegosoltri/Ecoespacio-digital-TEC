@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import mx.a01736935.greenify.model.EcoChallenge
 import mx.a01736935.greenify.data.DataSource
+import mx.a01736935.greenify.presentation.sign_in.UserData
 
 @Composable
 fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) -> Unit) {
@@ -164,7 +165,7 @@ fun CameraButton() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainMenuView(navController: NavController) {
+fun MainMenuView() {
     var selectedCategory by remember { mutableStateOf("All") }
 
     Scaffold(

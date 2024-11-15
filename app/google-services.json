@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "390208176910",
+    "firebase_url": "https://fir-greenify-default-rtdb.firebaseio.com",
+    "project_id": "fir-greenify",
+    "storage_bucket": "fir-greenify.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390208176910:android:d8ae85f1746ec295588d5f",
+        "android_client_info": {
+          "package_name": "mx.a01736935.greenify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390208176910-jdhqspk43rsg5eichr5ido4vack5ta1p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.a01736935.greenify",
+            "certificate_hash": "46baae97e3240be9e5b32f46ff6b7fcc28ad9f2b"
+          }
+        },
+        {
+          "client_id": "390208176910-0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGIIOe9xOTdGspVI-pHlggXd7XUXUsFew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390208176910-0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "390208176910-2qof4kqdbs4lf26sgf0sc5g4vd716fdj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "mx.tec.a01808035.Greenify"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
