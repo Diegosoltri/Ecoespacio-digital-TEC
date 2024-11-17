@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <cache-path
+        name="cache"
+        path="." />
+    <!-- Puedes añadir otras rutas según lo necesites, como por ejemplo: -->
+    <files-path
+        name="files"
+        path="." />
+    <external-path
+        name="external"
+        path="." />
+</paths>
