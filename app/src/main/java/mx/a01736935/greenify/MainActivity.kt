@@ -5,7 +5,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Info
@@ -20,8 +27,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import mx.a01736935.greenify.ui.theme.GreenifyTheme
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -62,18 +76,50 @@ fun App(navController: NavHostController, modifier: Modifier = Modifier) {
         composable("mainMenuScreen") { MainMenuView(navController) }
         composable("badgesScreen") { BadgesView(navController)  }
         composable("articleScreen") { ArticleView(navController)}
-        composable("cameraScreen") { LaunchCameraActivity()}
+        composable("cameraScreen") { CameraView(navController) }
+    }
+}
+/*
+@Composable
+fun BottomNavigationBar(navController: NavController) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .padding(vertical = 8.dp)
+            .background(Color(0xFFE8F5E9)),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        NavigationIconButton(R.drawable.ic_home, "Inicio") { /* Acción */ }
+        NavigationIconButton(R.drawable.ic_gallery, "Galería") { /* Acción */ }
+        NavigationIconButton(R.drawable.ic_camera, "Cámara") { /* Acción */ }
+        NavigationIconButton(R.drawable.ic_user, "Perfil") { /* Acción */ }
+        NavigationIconButton(R.drawable.ic_star, "Favoritos") { /* Acción */ }
     }
 }
 
 @Composable
-fun LaunchCameraActivity() {
-    val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        val intent = Intent(context, CameraScreen::class.java)
-        context.startActivity(intent)
+fun NavigationIconButton(iconRes: Int, label: String, onClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = label,
+            tint = Color(0xFF4CAF50),
+            modifier = Modifier.size(24.dp)
+        )
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            color = Color(0xFF4CAF50),
+            textAlign = TextAlign.Center
+        )
     }
 }
+ */
 
 @Composable
 fun NavigationBarComponent(navController: NavHostController) {

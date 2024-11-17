@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Greenify</string>
+    <!--Nombres de los retos-->
     <string name="name1">Usa la bicicleta para llegar al TEC</string>
     <string name="name2">Camina 3 KM</string>
     <string name="name3">Comparte autmóvil con un compañero</string>
@@ -11,6 +12,7 @@
     <string name="name9">Riega el vívero TEC</string>
     <string name="name10">Trae tu propio termo</string>
     <string name="name11">Aprende a separar tus residuos</string>
+    <!--Nombre de la medalla-->
     <string name="badgeName1">Usa la bicicleta para llegar al TEC</string>
     <string name="badgeName2">Camina 3 KM</string>
     <string name="badgeName3">Comparte autmóvil con un compañero</string>
@@ -22,6 +24,7 @@
     <string name="badgeName9">Riega el vívero TEC</string>
     <string name="badgeName10">Trae tu propio termo</string>
     <string name="badgeName11">Aprende a separar tus residuos</string>
+    <!--Progreso del usuario para cada reto-->
     <integer name="progress1">10</integer>
     <integer name="progress2">100</integer>
     <integer name="progress3">50</integer>
@@ -33,6 +36,7 @@
     <integer name="progress9">20</integer>
     <integer name="progress10">20</integer>
     <integer name="progress11">20</integer>
+    <!--Progreso para acabar cada reto/medalla-->
     <integer name="maxProgress1">100</integer>
     <integer name="maxProgress2">100</integer>
     <integer name="maxProgress3">100</integer>
@@ -44,7 +48,9 @@
     <integer name="maxProgress9">100</integer>
     <integer name="maxProgress10">100</integer>
     <integer name="maxProgress11">100</integer>
+    <!--Link de la guía-->
     <string name="drive_link">https://drive.google.com/file/d/1dta8BKrz4zCz3BS4PdqqO-pQKGuqwyWl/view?usp=sharing</string>
+    <!--Transporte-->
     <string name="transport1">Desplázate a pie o en bicicleta en distancias cortas, (menores a 1 kilómetro), no utilices el automóvil.</string>
     <string name="transport2">Organiza viajes compartidos con familiares o compañeros de trabajo para reducir el uso de vehículos particulares.</string>
     <string name="transport3">Utiliza el transporte público para distancias largas y reduce la cantidad de emisiones que generas.</string>
@@ -55,6 +61,22 @@
     <string name="transport8">Realiza teletrabajo siempre que sea posible para reducir la necesidad de desplazamiento.</string>
     <string name="transport9">Haz uso de plataformas de bicicletas públicas en tu ciudad para desplazamientos cortos y reducir la huella de carbono.</string>
     <string name="transport10">Evita acelerar y frenar bruscamente mientras conduces; esto ahorra combustible y reduce las emisiones.</string>
+    <string name="transport11">Evita el uso de motocicletas para trayectos cortos; aunque consumen menos combustible, también emiten contaminantes.</string>
+    <string name="transport12">Escoge caminar siempre que sea seguro y práctico en lugar de usar cualquier vehículo.</string>
+    <string name="transport13">Explora opciones de transporte compartido en tu comunidad, como carpooling o vehículos de uso compartido.</string>
+    <string name="transport14">Participa en campañas locales para fomentar el uso de la bicicleta o transporte público.</string>
+    <string name="transport15">Utiliza aplicaciones que te permitan planificar rutas de transporte público de manera eficiente.</string>
+    <string name="transport16">Planea tus viajes de tal forma que evites horas pico, reduciendo así el tiempo que pasas en el tráfico.</string>
+    <string name="transport17">Alquila un auto solo cuando sea estrictamente necesario para evitar costos de propiedad y contaminación.</string>
+    <string name="transport18">Evita la compra de autos grandes si no son necesarios para reducir el consumo de combustible.</string>
+    <string name="transport19">Usa vehículos con buena eficiencia de combustible y bajo impacto ambiental.</string>
+    <string name="transport20">Instala una bicicleta estacionaria en casa para ejercitarte y ahorrar combustible en viajes cortos.</string>
+    <string name="transport21">Organiza actividades al aire libre en parques cercanos a tu casa para minimizar el uso de transporte.</string>
+    <string name="transport22">Utiliza vehículos con motor en buenas condiciones para reducir la emisión de gases tóxicos.</string>
+    <string name="transport23">Compra productos de tiendas cercanas para reducir el uso de transporte al hacer compras.</string>
+    <string name="transport24">Involúcrate en grupos locales que promuevan el uso de medios de transporte limpios.</string>
+    <string name="transport25">Usa el transporte público siempre que sea posible para reducir la huella de carbono individual.</string>
+    <!--Energía-->
     <string name="energy1">Apaga las luces y los electrodomésticos cuando no los estés utilizando.</string>
     <string name="energy2">Cambia tus focos incandescentes por focos LED, que consumen hasta un 80% menos de energía.</string>
     <string name="energy3">Desconecta los aparatos electrónicos cuando no los uses, ya que consumen energía en modo de espera.</string>
@@ -65,6 +87,22 @@
     <string name="energy8">Evita el uso de secadora y seca la ropa al aire libre siempre que sea posible.</string>
     <string name="energy9">Lava la ropa en frío para ahorrar energía, ya que el calentamiento del agua representa el 90% del consumo de energía.</string>
     <string name="energy10">Usa electrodomésticos con certificación energética para reducir el consumo de electricidad.</string>
+    <string name="energy11">Instala cortinas y persianas térmicas para conservar mejor la temperatura en tu hogar.</string>
+    <string name="energy12">Realiza el mantenimiento regular de tus electrodomésticos para garantizar que funcionen eficientemente.</string>
+    <string name="energy13">Seca la ropa al aire libre en lugar de usar la secadora para ahorrar energía.</string>
+    <string name="energy14">Cocina con ollas y sartenes que retengan bien el calor para reducir el tiempo de cocción.</string>
+    <string name="energy15">Usa electrodomésticos en horarios de menor demanda para ayudar a estabilizar la red eléctrica.</string>
+    <string name="energy16">Reduce la temperatura del calentador de agua para disminuir el consumo de energía.</string>
+    <string name="energy17">Usa un termostato programable para controlar la temperatura de tu hogar eficientemente.</string>
+    <string name="energy18">Apaga el monitor de tu computadora si no lo usas durante varios minutos.</string>
+    <string name="energy19">Compra electrodomésticos que cuenten con tecnologías de ahorro de energía avanzadas.</string>
+    <string name="energy20">Evita abrir el refrigerador frecuentemente para conservar la energía utilizada en mantenerlo frío.</string>
+    <string name="energy21">Instala sensores de movimiento para encender las luces solo cuando sea necesario.</string>
+    <string name="energy22">Utiliza regletas de enchufes para apagar varios dispositivos a la vez al no usarlos.</string>
+    <string name="energy23">Revisa y sella posibles fugas de aire en ventanas y puertas para mejorar la eficiencia energética.</string>
+    <string name="energy24">Evita cargar dispositivos durante toda la noche para no desperdiciar energía.</string>
+    <string name="energy25">Apaga y desenchufa decoraciones eléctricas cuando no estén en uso.</string>
+    <!--Consumo-->
     <string name="consumption1">Compra productos locales y de temporada para reducir la huella de carbono en el transporte.</string>
     <string name="consumption2">Elige productos con envases reutilizables o biodegradables para reducir los residuos plásticos.</string>
     <string name="consumption3">Opta por ropa de materiales sostenibles y evita la moda de usar y tirar.</string>
@@ -75,6 +113,22 @@
     <string name="consumption8">Repara y reutiliza productos en lugar de reemplazarlos rápidamente.</string>
     <string name="consumption9">Reduce el consumo de productos de origen animal, ya que su producción requiere muchos recursos naturales.</string>
     <string name="consumption10">Investiga el origen y la sostenibilidad de los productos que compras para tomar decisiones informadas.</string>
+    <string name="consumption11">Repara productos en lugar de reemplazarlos siempre que sea posible.</string>
+    <string name="consumption12">Opta por alimentos de temporada que requieren menos recursos para producirse.</string>
+    <string name="consumption13">Consume alimentos frescos y de origen local para reducir la huella de carbono.</string>
+    <string name="consumption14">Evita el consumo excesivo de carne para reducir el impacto ambiental de su producción.</string>
+    <string name="consumption15">Prefiere los productos a granel en lugar de productos empaquetados.</string>
+    <string name="consumption16">Usa recipientes reutilizables para almacenar alimentos en lugar de bolsas de plástico.</string>
+    <string name="consumption17">Lee las etiquetas para identificar productos que sean ecológicos o sostenibles.</string>
+    <string name="consumption18">Evita los productos que contengan aceite de palma no sostenible.</string>
+    <string name="consumption19">Reduce la compra de ropa nueva y opta por prendas de segunda mano o recicladas.</string>
+    <string name="consumption20">Prefiere electrodomésticos de bajo consumo energético para disminuir el gasto de recursos.</string>
+    <string name="consumption21">Recicla tus aparatos electrónicos en centros de recolección adecuados.</string>
+    <string name="consumption22">Infórmate sobre las prácticas de las marcas antes de comprar sus productos.</string>
+    <string name="consumption23">Elige muebles y accesorios hechos con materiales sostenibles o reciclados.</string>
+    <string name="consumption24">Evita comprar productos en exceso y así minimizar el desperdicio.</string>
+    <string name="consumption25">Considera el impacto ambiental antes de cada compra y toma decisiones responsables.</string>
+    <!--Desecho-->
     <string name="waste1">Separa correctamente tus residuos en orgánicos e inorgánicos.</string>
     <string name="waste2">Composta tus residuos orgánicos para reducir la cantidad de basura y generar fertilizante natural.</string>
     <string name="waste3">Recicla plásticos, metales, vidrio y papel para reducir el volumen de desechos que llegan a los vertederos.</string>
@@ -85,4 +139,19 @@
     <string name="waste8">No tires basura en espacios públicos y ayuda a mantenerlos limpios.</string>
     <string name="waste9">Recicla los desechos electrónicos de manera responsable para evitar la contaminación.</string>
     <string name="waste10">Realiza campañas de limpieza en tu comunidad y participa en programas de reciclaje locales.</string>
+    <string name="waste11">Reutiliza envases plásticos para almacenar objetos en casa.</string>
+    <string name="waste12">Recoge los residuos en espacios públicos y deposítalos en los lugares adecuados.</string>
+    <string name="waste13">Evita comprar productos con empaques innecesarios para reducir los residuos generados.</string>
+    <string name="waste14">Participa en campañas de recolección de residuos en tu comunidad.</string>
+    <string name="waste15">No tires pilas al basurero; recíclalas en los lugares adecuados.</string>
+    <string name="waste16">Separa los residuos de cocina y crea una composta para aprovecharlos.</string>
+    <string name="waste17">Evita desechar residuos peligrosos en lugares no autorizados.</string>
+    <string name="waste18">Limpia los envases antes de reciclarlos para facilitar su procesamiento.</string>
+    <string name="waste19">Utiliza envases retornables para tus compras, como botellas y frascos de vidrio.</string>
+    <string name="waste20">Recicla los residuos de jardín, como hojas y ramas, para crear composta.</string>
+    <string name="waste21">Reutiliza materiales como cartones y cajas para otros usos en el hogar.</string>
+    <string name="waste22">Organiza jornadas de limpieza en tu comunidad para recoger desechos en áreas verdes.</string>
+    <string name="waste23">Reduce el uso de servilletas de papel, utilizando servilletas de tela reutilizables.</string>
+    <string name="waste24">Involúcrate en proyectos de reciclaje y reducción de residuos en tu comunidad.</string>
+    <string name="waste25">Infórmate sobre las prácticas de reciclaje y desecho adecuado en tu ciudad.</string>
 </resources>

@@ -40,7 +40,7 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
             .padding(30.dp)
     ) {
         Spacer(modifier = Modifier.height(80.dp))
-        Image(painter = logoGreenify, contentDescription = "EcoMision", contentScale = ContentScale.FillWidth, modifier = Modifier.width(80.dp))
+        Image(painter = logoGreenify, contentDescription = "EcoMision", contentScale = ContentScale.FillWidth, modifier = Modifier.width(125.dp))
         Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Bienvenido a " + "Greenify",

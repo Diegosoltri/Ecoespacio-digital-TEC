@@ -2,33 +2,24 @@ package mx.a01736935.greenify
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,11 +42,13 @@ import mx.a01736935.greenify.data.DataSource
 
 @Composable
 fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) -> Unit) {
-    val categories = listOf("All", "Movilidad", "Reciclado", "Agua", "Energía", "Residuos") // Lista de categorías
+    val categories = listOf("Todos", "Transporte", "Energía", "Residuos") // Categorías simplificadas
 
     LazyRow(
-        modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier
+            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         items(categories) { category ->
             CategoryButton(
@@ -72,33 +65,46 @@ fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) Color(0xFFB8F168) else Color(0xFFEFEFEF),
+            containerColor = if (isSelected) Color(0xFFFFF176) else Color(0xFFEFEFEF),
             contentColor = Color.Black
         ),
         modifier = Modifier
             .height(40.dp)
-            .padding(horizontal = 8.dp)
+            .padding(horizontal = 4.dp)
     ) {
-        Text(text = category, fontSize = 14.sp)
+        Text(text = category, fontSize = 14.sp, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
-fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier){
-    Card (elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.padding(4.dp)) {
-        Row {
-            Image(painter = painterResource(id = challenge.imageResId), contentDescription = stringResource(
-                id = challenge.nameResId), contentScale = ContentScale.Crop, modifier = Modifier.width(200.dp))
-            Column (modifier = Modifier
-                .padding(16.dp)
-                .weight(1f)) {
-                Text(text = stringResource(id = challenge.nameResId), fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold, color = Color(0,154,20)
-                )
-                Text(text = stringResource(id = challenge.locationResId))
-                Text(text = stringResource(id = challenge.bountyResId))
-            }
+fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier) {
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = challenge.imageResId),
+                contentDescription = "Challenge Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(120.dp)
+                    .width(120.dp)
+            )
+            Text(
+                text = stringResource(id = challenge.nameResId),
+                fontSize = 14.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
         }
     }
 }
@@ -106,7 +112,7 @@ fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier){
 @Composable
 fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifier) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Dos columnas
+        columns = GridCells.Fixed(2),
         modifier = modifier.padding(8.dp),
         content = {
             items(challenges) { challenge ->
@@ -147,48 +153,30 @@ fun BottomNavigationBar() {
     }
 }
 */
-/*
-@Composable
-fun CameraButton() {
-    FloatingActionButton(
-        onClick = { /* Acción de la cámara */ },
-        containerColor = Color(0xFF4CAF50), // Color de fondo del botón
-        shape = MaterialTheme.shapes.large, // Puedes cambiar la forma si lo deseas
-        modifier = Modifier.size(64.dp) // Ajuste del tamaño del FAB
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_camera),
-            contentDescription = "Camera",
-            tint = Color.White
-        )
-    }
-}
-*/
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainMenuView(navController: NavController) {
     var selectedCategory by remember { mutableStateOf("All") }
 
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF5F5F5)) ) {
                     Text(
-                        text = "Greenify",
+                        text = "GREENIFY",
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF4CAF50),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "CONOCE NUESTROS NUEVOS RETOS!",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF4CAF50),
                         textAlign = TextAlign.Center,
-                        lineHeight = 40.sp,
-                        fontSize = 50.sp,
-                        color = Color.Green
+                        modifier = Modifier.padding(top = 4.dp)
                     )
-                    Image(
-                        painter = painterResource(id = R.drawable.gadiro),
-                        contentDescription = "Profile Photo",
-                        modifier = Modifier.width(40.dp)
-                    )
-                }
-
                 // Carrusel de categorías
                 CategoriesCarousel(
                     selectedCategory = selectedCategory,

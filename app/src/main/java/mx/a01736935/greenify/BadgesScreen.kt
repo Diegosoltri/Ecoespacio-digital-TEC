@@ -1,6 +1,5 @@
 package mx.a01736935.greenify
 
-import androidx.annotation.IntegerRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,8 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import mx.a01736935.greenify.data.DataSource
 import mx.a01736935.greenify.model.BadgeItem
 
@@ -102,6 +99,10 @@ fun BadgesList(badges: List<BadgeItem>, modifier: Modifier = Modifier) {
 
 @Composable
 fun BadgeRow(badge: BadgeItem) {
+    var currentProgress by remember { mutableFloatStateOf(0f) }
+    var maxProgress by remember { mutableFloatStateOf(0f) }
+    currentProgress = badge.progressResId.toFloat()
+    maxProgress = badge.maxProgressResId.toFloat()
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
@@ -128,53 +129,13 @@ fun BadgeRow(badge: BadgeItem) {
             ) {
                 Text(text = "${integerResource(id = badge.progressResId)}/${integerResource(id = badge.maxProgressResId)}", color = Color(0xFF4CAF50), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(16.dp))
-                Text(text = "★ ${integerResource(id = badge.scoreResId)}", color = Color.Black, fontSize = 14.sp)
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Text(text = "${integerResource(id = badge.percentageResId)}%", color = Color.Black, fontSize = 14.sp)
             }
-            LinearDeterminateIndicator()
-        }
-    }
-}
-
-
-@Composable
-fun LinearDeterminateIndicator() {
-    var currentProgress by remember { mutableFloatStateOf(0f) }
-    var loading by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope() // Create a coroutine scope
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Button(onClick = {
-            loading = true
-            scope.launch {
-                loadProgress { progress ->
-                    currentProgress = progress
-                }
-                loading = false // Reset loading when the coroutine finishes
-            }
-        }, enabled = !loading) {
-            Text("Start loading")
-        }
-
-        if (loading) {
             LinearProgressIndicator(
-                progress = { currentProgress },
-                modifier = Modifier.fillMaxWidth(),
+                progress = { currentProgress/maxProgress },
+                color = Color(0xFF4CAF50),
+                modifier = Modifier.fillMaxWidth().height(8.dp),
             )
         }
-    }
-}
-
-suspend fun loadProgress(updateProgress: (Float) -> Unit) {
-    for (i in 1..100) {
-        updateProgress(i.toFloat() / 100)
-        delay(100)
     }
 }
 
