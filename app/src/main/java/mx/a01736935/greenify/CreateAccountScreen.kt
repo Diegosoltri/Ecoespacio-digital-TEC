@@ -19,63 +19,60 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import mx.a01736935.greenify.authentification.AuthenticationManager
 
 /* navController: NavController,*/
 @Composable
 fun CreateAccountView(
     onRegisterClick: (email: String, password: String) -> Unit,
-
+    onGoogleSignInClick: () -> Unit // Agregar un callback para el botón de Google
 ) {
     val logoGreenify = painterResource(id = R.drawable.greenify)
-    val logoFb = painterResource(id = R.drawable.facebook)
     val logoGoogle = painterResource(id = R.drawable.google)
 
-    var name by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    val authenticationManager = remember {
+        AuthenticationManager(context)
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp), // Añadir padding para no pegar todo al borde
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Imagen superior
         Image(
             painter = logoGreenify,
             contentDescription = "Greenify",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .height(50.dp) // Tamaño reducido de la imagen
+                .height(50.dp)
                 .padding(bottom = 16.dp)
         )
 
-       /* // Nombre
-        Text(text = "Nombre", fontSize = 18.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = name,
-            onValueChange = { name = it },
-            placeholder = { Text("Ingrese su nombre") },
-            modifier = Modifier.fillMaxWidth()
-        )*/
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // Correo
+     /*   // Correo
         Text(text = "Correo", fontSize = 18.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -95,57 +92,62 @@ fun CreateAccountView(
             onValueChange = { password = it },
             placeholder = { Text("Ingrese su contraseña") },
             modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation() // Para ocultar la contraseña
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-/*
-        // Confirmar Contraseña
-        Text(text = "Confirmar Contraseña", fontSize = 18.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            placeholder = { Text("Confirme su contraseña") },
-            modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
-*/
+
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Botón de registro
-        /*Button(onClick = { navController.navigate("forgotPasswordScreen") }, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = { authenticationManager.loginWithEmail(email, password)
+            .onEach { response ->
+                if (response is AuthenticationManager.AuthResponse.Success){
+
+                }
+            }
+            .launchIn(coroutineScope)
+                         }, modifier = Modifier.fillMaxWidth()) {
             Text("Registrarse")
-        }*/
-        Button(onClick = { onRegisterClick(email, password) }, modifier = Modifier.fillMaxWidth()) {
-        Text("Registrarse")}
+        }
+
+
+
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Link para iniciar sesión
         Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
         Spacer(modifier = Modifier.height(8.dp))
-       /* Button(onClick = {(navController.navigate("initialScreen"))}, modifier = Modifier.fillMaxWidth()) {
-            Text("Inicia Sesión")*/
-        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Redes sociales
         Text(text = "O inicia sesión con redes sociales", fontSize = 14.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(10.dp))
-        Row {
-            Image(painter = logoFb, contentDescription = "Facebook", modifier = Modifier.size(50.dp))
-            Spacer(modifier = Modifier.width(20.dp))
-            Image(painter = logoGoogle, contentDescription = "Google", modifier = Modifier.size(50.dp))
+*/        // Botón para iniciar sesión con Google
+        Button(
+            onClick = { onGoogleSignInClick() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+
+        ) {
+            Image(
+                painter = logoGoogle,
+                contentDescription = "Iniciar sesión con Google",
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "Iniciar sesión con Google", color = Color.Black)
         }
     }
+}
+
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewCreateAccountView() {
-    // Llamas a tu Composable y pasas los parámetros necesarios.
-    CreateAccountView(onRegisterClick = { email, password ->
-        // Simular el comportamiento de registro (solo un log en este caso).
-        println("Email: $email, Password: $password")
-    })
+    CreateAccountView(
+        onRegisterClick = { email, password ->
+            // Acción de prueba para registro
+        },
+        onGoogleSignInClick = {
+            // Acción de prueba para inicio de sesión con Google
+        }
+    )
 }

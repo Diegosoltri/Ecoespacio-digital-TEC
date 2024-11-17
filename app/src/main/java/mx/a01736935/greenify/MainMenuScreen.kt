@@ -2,6 +2,7 @@ package mx.a01736935.greenify
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,12 +47,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseUser
 import mx.a01736935.greenify.model.EcoChallenge
 import mx.a01736935.greenify.data.DataSource
-import mx.a01736935.greenify.presentation.sign_in.UserData
+
 
 @Composable
-fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) -> Unit) {
+fun CategoriesCarousel(
+    selectedCategory: String,
+    onCategorySelected: (String) -> Unit) {
     val categories = listOf("All", "Movilidad", "Reciclado", "Agua", "Energía", "Residuos") // Lista de categorías
 
     LazyRow(
@@ -117,8 +121,11 @@ fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifi
     )
 }
 
+
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(
+    onProfileClick: () -> Unit // Añadido el parámetro
+) {
     BottomAppBar(
         contentColor = Color.White,
         containerColor = Color(0xFF4CAF50), // Cambia el color de la barra según el estilo de tu app
@@ -137,7 +144,8 @@ fun BottomNavigationBar() {
 
         Spacer(modifier = Modifier.weight(1f)) // Espaciador para centrar el contenido
 
-        IconButton(onClick = { /* Acción para la segunda opción */ }) {
+        // Icono de perfil que lleva al perfil del usuario
+        IconButton(onClick = onProfileClick) {  // Modificado para usar el parámetro
             Icon(
                 painter = painterResource(id = R.drawable.ic_profile),
                 contentDescription = "Profile",
@@ -163,47 +171,73 @@ fun CameraButton() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainMenuView() {
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+fun MainMenuView(
+    onSignOutClick: () -> Unit,
+    onProfileClick: () -> Unit
+) {
     var selectedCategory by remember { mutableStateOf("All") }
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar()
+            BottomNavigationBar(
+                onProfileClick = onProfileClick // Agregado para navegación al perfil
+            )
         },
         floatingActionButton = {
             CameraButton()
         },
-        floatingActionButtonPosition = FabPosition.Center, // Posicionamos el FAB al centro
+        floatingActionButtonPosition = FabPosition.Center
     ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Greenify",
+                    textAlign = TextAlign.Center,
+                    lineHeight = 40.sp,
+                    fontSize = 50.sp,
+                    color = Color.Green
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.gadiro),
+                    contentDescription = "Profile Photo",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(60.dp)
+                        .padding(8.dp)
+                        .clickable { onProfileClick() } // Navegar al perfil
+                )
+
+                Button(
+                    onClick = onSignOutClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF4CAF50)
+                    )
                 ) {
                     Text(
-                        text = "Greenify",
-                        textAlign = TextAlign.Center,
-                        lineHeight = 40.sp,
-                        fontSize = 50.sp,
-                        color = Color.Green
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.gadiro),
-                        contentDescription = "Profile Photo",
-                        modifier = Modifier.width(60.dp)
+                        text = "Sign Out",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
-
-                // Carrusel de categorías
-                CategoriesCarousel(
-                    selectedCategory = selectedCategory,
-                    onCategorySelected = { selectedCategory = it }
-                )
-                // Grid de retos basado en la categoría seleccionada
-                EcoChallengeGrid(challenges = DataSource().loadEcoChallenges())
             }
+
+            // Carrusel de categorías
+            CategoriesCarousel(
+                selectedCategory = selectedCategory,
+                onCategorySelected = { selectedCategory = it }
+            )
+
+            // Grid de retos basado en la categoría seleccionada
+            EcoChallengeGrid(challenges = DataSource().loadEcoChallenges())
         }
+    }
 }

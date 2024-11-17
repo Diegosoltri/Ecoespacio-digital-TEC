@@ -53,13 +53,14 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.navigation.compose)
+
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.compose.material)
-    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
+
     androidTestImplementation(libs.androidx.navigation.testing)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -77,9 +78,25 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(platform(libs.firebase.bom.v3351))
+
     implementation(libs.google.firebase.analytics)
+
+    //Coil
     implementation(libs.coil.compose)
 
+//Navgation
+    implementation(libs.androidx.navigation.compose)
+//Firebase
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-    }
+   //Credential manager
+    implementation(libs.play.services.auth)
+
+    val credentialsManagerVersion = "1.5.0-alpha05"
+    implementation("androidx.credentials:credentials:$credentialsManagerVersion")
+    implementation("androidx.credentials:credentials-play-services-auth:$credentialsManagerVersion")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+
+
+}
