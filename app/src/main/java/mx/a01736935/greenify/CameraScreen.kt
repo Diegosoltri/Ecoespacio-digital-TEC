@@ -1,20 +1,24 @@
 package mx.a01736935.greenify
 
-import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material3.Button
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,46 +31,13 @@ import androidx.navigation.NavController
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-
-/*
-class CameraScreen : AppCompatActivity(){
-    private lateinit var scanQrBtn : Button
-    private lateinit var scannedValueTv : TextView
-
-    override fun onCreate(savedInstanceState: Bundle?){
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
-        scanQrBtn = findViewById(R.id.scanQrBtn)
-        scannedValueTv = findViewById(R.id.scannedValueTv)
-        registerUiListener()
-    }
-    private fun registerUiListener(){
-        scanQrBtn.setOnClickListener {
-            scannerLauncher.launch(
-                ScanOptions().setPrompt("Scan Qr Code")
-                .setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-            )
-        }
-    }
-    private val scannerLauncher = registerForActivityResult<ScanOptions, ScanIntentResult>(
-        ScanContract()
-    ){result ->
-        if (result.contents == null){
-            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
-        }else{
-            scannedValueTv.text = buildString {
-                append("Scanned Value : ")
-                append(result.contents)
-            }
-        }
-    }
-}
-*/
+import mx.a01736935.greenify.model.BadgeItem
 
 @Composable
-fun CameraView(navController: NavController) {
+fun CameraView(navController: NavController, badgeList: List<BadgeItem>) {
     val context = LocalContext.current
     val scannedValue = remember { mutableStateOf("") }
+    val showConfirmationIcon = remember { mutableStateOf(false) }
 
     // Lanzador para ZXing
     val scannerLauncher = rememberLauncherForActivityResult(
@@ -76,6 +47,7 @@ fun CameraView(navController: NavController) {
             Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
         } else {
             scannedValue.value = result.contents
+            validateScannedValue(scannedValue.value, badgeList, context, showConfirmationIcon)
         }
     }
 
@@ -103,5 +75,48 @@ fun CameraView(navController: NavController) {
             color = Color.Black,
             fontSize = 16.sp
         )
+        if (showConfirmationIcon.value) {
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "Validación exitosa",
+                tint = Color.Green,
+                modifier = Modifier
+                    .size(120.dp).align(alignment = Alignment.CenterHorizontally)
+            )
+        }
+    }
+}
+
+fun validateScannedValue(
+    scannedValue: String,
+    badgeList: List<BadgeItem>,
+    context: Context,
+    showConfirmationIcon: MutableState<Boolean>
+) {
+    // Buscar coincidencia en la lista de insignias
+    val matchingBadge = badgeList.find { badge ->
+        context.getString(badge.nameResId) == scannedValue
+    }
+
+    if (matchingBadge != null) {
+        // Actualizar el progreso de la insignia
+        val currentProgress = context.resources.getInteger(matchingBadge.progressResId)
+        val maxProgress = context.resources.getInteger(matchingBadge.maxProgressResId)
+
+        if (currentProgress < maxProgress) {
+            val updatedProgress = currentProgress + 10
+
+            Toast.makeText(context, "Progreso actualizado: $updatedProgress/$maxProgress", Toast.LENGTH_SHORT).show()
+
+            // Mostrar ícono de validación por 2 segundos
+            showConfirmationIcon.value = true
+            Handler(Looper.getMainLooper()).postDelayed({
+                showConfirmationIcon.value = false
+            }, 1000)
+        } else {
+            Toast.makeText(context, "Reto ya completado", Toast.LENGTH_SHORT).show()
+        }
+    } else {
+        Toast.makeText(context, "El QR no coincide con ningún reto", Toast.LENGTH_SHORT).show()
     }
 }

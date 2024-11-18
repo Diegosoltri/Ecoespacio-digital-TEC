@@ -12,17 +12,17 @@ import mx.a01736935.greenify.model.EcoChallenge
 class DataSource {
     fun loadEcoChallenges(): List<EcoChallenge> {
         return listOf(
-            EcoChallenge(R.drawable.imgbici, R.string.name1),
-            EcoChallenge(R.drawable.imgcamina, R.string.name2),
-            EcoChallenge(R.drawable.imgauto, R.string.name3),
-            EcoChallenge(R.drawable.imgcomposta, R.string.name4),
-            EcoChallenge(R.drawable.imgreciclado, R.string.name5),
-            EcoChallenge(R.drawable.imgdesechos, R.string.name6),
-            EcoChallenge(R.drawable.imgenergia, R.string.name7),
-            EcoChallenge(R.drawable.imgflora, R.string.name8),
-            EcoChallenge(R.drawable.imgregar, R.string.name9),
-            EcoChallenge(R.drawable.imgtermo, R.string.name10),
-            EcoChallenge(R.drawable.imgresiduos, R.string.name11),
+            EcoChallenge(R.drawable.imgbici, R.string.name1, R.string.desc1),
+            EcoChallenge(R.drawable.imgcamina, R.string.name2, R.string.desc2),
+            EcoChallenge(R.drawable.imgauto, R.string.name3, R.string.desc3),
+            EcoChallenge(R.drawable.imgcomposta, R.string.name4, R.string.desc4),
+            EcoChallenge(R.drawable.imgreciclado, R.string.name5, R.string.desc5),
+            EcoChallenge(R.drawable.imgdesechos, R.string.name6, R.string.desc6),
+            EcoChallenge(R.drawable.imgenergia, R.string.name7, R.string.desc7),
+            EcoChallenge(R.drawable.imgflora, R.string.name8, R.string.desc8),
+            EcoChallenge(R.drawable.imgregar, R.string.name9, R.string.desc9),
+            EcoChallenge(R.drawable.imgtermo, R.string.name10, R.string.desc10),
+            EcoChallenge(R.drawable.imgresiduos, R.string.name11, R.string.desc11),
         )
     }
 
@@ -38,7 +38,7 @@ class DataSource {
                 R.drawable.camina,
                 R.string.badgeName2,
                 R.integer.progress2,
-                R.integer.maxProgress2
+                R.integer.maxProgress2,
             ),
             BadgeItem(
                 R.drawable.carro,
@@ -93,7 +93,7 @@ class DataSource {
                 R.string.badgeName11,
                 R.integer.progress11,
                 R.integer.maxProgress11
-            ),
+            )
         )
     }
 
@@ -124,8 +124,6 @@ class DataSource {
             ArticleTransport(R.string.transport23),
             ArticleTransport(R.string.transport24),
             ArticleTransport(R.string.transport25)
-
-
         )
     }
 

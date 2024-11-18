@@ -90,77 +90,98 @@ fun ArticleButton(article: String, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun ArticleCard(article: ArticleItem, modifier: Modifier = Modifier) {
-    Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.padding(4.dp)
-    ) {
-        Text(text = stringResource(id = article.articleResId))
-    }
-}
-
-@Composable
-fun ArticleGrid(articles: List<ArticleItem>, modifier: Modifier = Modifier) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Dos columnas
-        modifier = modifier.padding(8.dp),
-        content = {
-            items(articles) { article ->
-                ArticleCard(article)
-            }
-        }
-    )
-}
-
-@Composable
-fun ArticleView(navController: NavController){
+fun ArticleView(navController: NavController) {
     val context = LocalContext.current
     val guideUrl = "https://drive.google.com/file/d/1dta8BKrz4zCz3BS4PdqqO-pQKGuqwyWl/view?usp=sharing"
-    var selectedArticle by remember { mutableStateOf("All") }
-    val allArticles = DataSource().loadArticle()
-    val filteredArticles = when (selectedArticle) {
-        "Transporte" -> allArticles.filter { it.articleResId in R.string.transport1..R.string.transport10 }
-        "Energía" -> allArticles.filter { it.articleResId in R.string.energy1..R.string.energy10 }
-        "Consumo" -> allArticles.filter { it.articleResId in R.string.consumption1..R.string.consumption10 }
-        "Desecho" -> allArticles.filter { it.articleResId in R.string.waste1..R.string.waste10 }
-        else -> allArticles
-    }
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row (
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-            Text(
-                    text = "Guía de Cuidado" + "del Medio Ambiente",
-                    textAlign = TextAlign.Center,
-                    lineHeight = 40.sp,
-                    fontSize = 50.sp,
-                    color = Color.Green
-            )
-            Image(
-                    painter = painterResource(id = R.drawable.gadiro),
-                    contentDescription = "Profile Photo",
-                    modifier = Modifier.width(60.dp)
-            )
+
+    // Estado para la categoría seleccionada y el consejo actual
+    var selectedCategory by remember { mutableStateOf("Todos") }
+    var currentTip by remember { mutableStateOf("Selecciona una categoría y presiona 'Nuevo Consejo'") }
+
+    // Cargar las listas predefinidas
+    val transportTips = DataSource().loadArticleTransport()
+    val energyTips = DataSource().loadArticleEnergy()
+    val consumptionTips = DataSource().loadArticleConsumption()
+    val wasteTips = DataSource().loadArticleWaste()
+    val articleTips = DataSource().loadArticle()
+
+    // Función para obtener un consejo aleatorio
+    fun getRandomTip(category: String): String {
+        return when (category) {
+            "Transporte" -> context.getString(transportTips.random().transportResId)
+            "Energía" -> context.getString(energyTips.random().energyResId)
+            "Consumo" -> context.getString(consumptionTips.random().consumptionResId)
+            "Desecho" -> context.getString(wasteTips.random().wasteResId)
+            else -> {
+                // Concatenar todas las listas y seleccionar un elemento aleatorio
+                context.getString(articleTips.random().articleResId)
+            }
         }
-        Spacer(modifier = Modifier.height(10.dp))
-            TextButton(
-            onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, parse(guideUrl))
-                context.startActivity(intent)
-            },
-            modifier = Modifier.padding(8.dp)
-        ) {
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Título
+        Text(
+            text = "GREENIFY",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Green,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "Guía de cuidado del Medio Ambiente",
+            fontSize = 16.sp,
+            color = Color.Gray,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botón para abrir la guía completa
+        TextButton(onClick = {
+            val intent = Intent(Intent.ACTION_VIEW, parse(guideUrl))
+            context.startActivity(intent)
+        }) {
             Text(text = "Guía Completa", color = Color.Blue)
         }
 
-            // Carrusel de categorías
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Carrusel de categorías
         ArticleCarousel(
-                selectedArticle = selectedArticle,
-                onArticleSelected = { selectedArticle = it }
+            selectedArticle = selectedCategory,
+            onArticleSelected = { selectedCategory = it }
         )
-            // Grid de retos basado en la categoría seleccionada
-        ArticleGrid(articles = filteredArticles)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Texto del consejo actual
+        Text(
+            text = currentTip,
+            fontSize = 18.sp,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botón para generar un nuevo consejo
+        Button(
+            onClick = {
+                currentTip = getRandomTip(selectedCategory)
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFB8F168),
+                contentColor = Color.Black
+            )
+        ) {
+            Text(text = "Nuevo Consejo")
+        }
     }
 }

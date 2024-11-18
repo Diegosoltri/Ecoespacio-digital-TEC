@@ -12,6 +12,18 @@
     <string name="name9">Riega el vívero TEC</string>
     <string name="name10">Trae tu propio termo</string>
     <string name="name11">Aprende a separar tus residuos</string>
+    <!--Descripción de los retos -->
+    <string name="desc1">Promueve el transporte sostenible utilizando tu bicicleta para llegar al campus. Es una excelente manera de reducir emisiones y mejorar tu salud. Aulas II</string>
+    <string name="desc2">Realiza una caminata de 3 kilómetros, disfrutando del entorno natural y reduciendo tu huella de carbono mientras cuidas tu cuerpo. LIFE</string>
+    <string name="desc3">Reduce las emisiones compartiendo tu auto con un compañero. Es una acción sencilla que contribuye a un futuro más sostenible. Estacionamiento</string>
+    <string name="desc4">Participa en este taller para aprender a transformar tus desechos orgánicos en composta y contribuir al cuidado del medio ambiente. Vivero TEC</string>
+    <string name="desc5">Visita el centro de reciclaje para conocer cómo se procesan los materiales reciclables y aprende a integrarlo en tu rutina diaria. Vivero TEC</string>
+    <string name="desc6">Conoce el impacto de los desechos y cómo puedes gestionarlos de manera responsable para reducir la contaminación. Aulas IV</string>
+    <string name="desc7">Participa en esta actividad para descubrir formas prácticas de ahorrar energía en tu día a día y proteger los recursos naturales. Aulas I</string>
+    <string name="desc8">Conoce la flora del vivero TEC: Explora el vivero del campus y descubre las especies de flora que ayudan a mantener el equilibrio ecológico. Vivero TEC</string>
+    <string name="desc9">Contribuye al cuidado del vivero regando las plantas y ayudando a mantener este espacio verde lleno de vida. Vivero TEC</string>
+    <string name="desc10">Reduce el uso de plásticos al traer tu propio termo para bebidas. Pequeñas acciones generan grandes cambios. Cafetería</string>
+    <string name="desc11">Familiarízate con las mejores prácticas para separar residuos y contribuir a un reciclaje más efectivo. Cafetería</string>
     <!--Nombre de la medalla-->
     <string name="badgeName1">Usa la bicicleta para llegar al TEC</string>
     <string name="badgeName2">Camina 3 KM</string>
