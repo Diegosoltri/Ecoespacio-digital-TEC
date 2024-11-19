@@ -45,6 +45,7 @@ import mx.a01736935.greenify.ui.theme.GreenifyTheme
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import mx.a01736935.greenify.data.DataSource
 import mx.a01736935.greenify.model.BadgeItem
@@ -64,9 +65,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppScaffold() {
     val navController = rememberNavController()
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+    // Determina si se debe mostrar la barra de navegación
+    val showBottomBar = when (currentRoute) {
+        "initialScreen", "secondScreen", "loginScreen","createAccountScreen","forgotPasswordScreen" -> false
+        else -> true
+    }
     Scaffold(
         bottomBar = {
-            NavigationBarComponent(navController)
+            if (showBottomBar) {
+                NavigationBarComponent(navController)
+            }
         },
         content = { innerPadding ->
             App(navController, Modifier.padding(innerPadding))
@@ -77,22 +87,22 @@ fun AppScaffold() {
 @Composable
 fun App(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = "initialScreen") {
-        composable("initialScreen") { InitialView(navController, onSwipeToSecond = {navController.navigate("secondScreen")})}
-        composable("secondScreen"){ SecondView(onSwipeToLogin = { navController.navigate("loginScreen")},
+        composable("initialScreen") { InitialView(navController,showBottomBar = false, onSwipeToSecond = {navController.navigate("secondScreen")})}
+        composable("secondScreen"){ SecondView(showBottomBar = false, onSwipeToLogin = { navController.navigate("loginScreen")},
             onSwipeBack = { navController.popBackStack()})}
-        composable("loginScreen"){LoginView(navController, onLoginSuccess = { navController.navigate("mainMenuScreen")})}
-        composable("createAccountScreen") { CreateAccountView(navController) }
-        composable("forgotPasswordScreen") { ForgotPasswordView(navController) }
-        composable("mainMenuScreen") { MainMenuView(navController) }
-        composable("badgesScreen") { BadgesView(navController)  }
-        composable("articleScreen") { ArticleView(navController)}
-        composable("cameraScreen") { CameraView(navController) }
+        composable("loginScreen"){LoginView(navController, showBottomBar = false, onLoginSuccess = { navController.navigate("mainMenuScreen")})}
+        composable("createAccountScreen") { CreateAccountView(navController, showBottomBar = false) }
+        composable("forgotPasswordScreen") { ForgotPasswordView(navController, showBottomBar = false) }
+        composable("mainMenuScreen") { MainMenuView(navController, showBottomBar = true) }
+        composable("badgesScreen") { BadgesView(navController, showBottomBar = false)  }
+        composable("articleScreen") { ArticleView(navController, showBottomBar = false)}
+        composable("cameraScreen") { CameraView(navController, showBottomBar = false) }
     }
 }
 
 
 @Composable
-fun NavigationBarComponent(navController: NavHostController) {
+fun NavigationBarComponent(navController: NavHostController, modifier: Modifier = Modifier) {
     var selectedItem by remember { mutableIntStateOf(0) }
     NavigationBar(containerColor = Color(0xFFFFFFA1)){
         NavigationBarItem(
@@ -121,7 +131,9 @@ fun NavigationBarComponent(navController: NavHostController) {
             }
         )
         NavigationBarItem(
-            icon = { Icon(painter = painterResource(id = R.drawable.camera), contentDescription = "CameraScreen",tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
+            icon = { Icon(painter = painterResource(id = R.drawable.camera),modifier = Modifier.size(50.dp), contentDescription = "CameraScreen",
+                tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black)
+               },
             selected = selectedItem == 2,
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color(0xFF4CAF50),

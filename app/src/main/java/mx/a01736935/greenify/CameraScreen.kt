@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +37,7 @@ import mx.a01736935.greenify.data.DataSource
 import mx.a01736935.greenify.model.BadgeItem
 
 @Composable
-fun CameraView(navController: NavController) {
+fun CameraView(navController: NavController, showBottomBar: Boolean = true) {
     val context = LocalContext.current
     val scannedValue = remember { mutableStateOf("") }
     val showConfirmationIcon = remember { mutableStateOf(false) }
@@ -55,11 +57,16 @@ fun CameraView(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = {
+        Spacer(modifier = Modifier.height(80.dp))
+        Button(colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFFB8F168),
+            contentColor = Color.Black
+        ),onClick = {
             scannerLauncher.launch(
                 ScanOptions()
                     .setPrompt("Scan QR Code")
@@ -73,7 +80,7 @@ fun CameraView(navController: NavController) {
 
         Text(
             text = if (scannedValue.value.isEmpty()) "Scanned value will appear here" else "Scanned Value: ${scannedValue.value}",
-            color = Color.Black,
+            color = Color.Green,
             fontSize = 16.sp
         )
         if (showConfirmationIcon.value) {

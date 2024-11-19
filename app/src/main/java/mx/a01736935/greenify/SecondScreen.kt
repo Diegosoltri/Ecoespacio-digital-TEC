@@ -74,7 +74,7 @@ import androidx.wear.compose.material.swipeable
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
 fun SecondView(modifier: Modifier = Modifier, onSwipeToLogin: () -> Unit,
-    onSwipeBack: () -> Unit // Regresar a la pantalla anterior
+    onSwipeBack: () -> Unit, showBottomBar: Boolean = false
 ) {
     val swipeableState = rememberSwipeableState(0)
     val anchors = mapOf(0f to 0, -150f to 1, 150f to 2)

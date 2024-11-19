@@ -74,7 +74,7 @@ import androidx.wear.compose.material.swipeable
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLoginSuccess: () -> Unit) {
+fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLoginSuccess: () -> Unit, showBottomBar: Boolean = false) {
     val swipeableState = rememberSwipeableState(0)
     val anchors = mapOf(0f to 0, 150f to 1)
     val logo = painterResource(id = R.drawable.greenify)

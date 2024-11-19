@@ -140,7 +140,7 @@ fun BadgeRow(badge: BadgeItem) {
 }
 
 @Composable
-fun BadgesView(navController : NavController) {
+fun BadgesView(navController : NavController, showBottomBar: Boolean = true) {
     var selectedBadge by remember { mutableStateOf("All") }
     Column(
         modifier = Modifier

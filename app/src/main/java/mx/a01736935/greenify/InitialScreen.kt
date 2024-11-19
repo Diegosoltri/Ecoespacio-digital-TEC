@@ -29,7 +29,8 @@ import androidx.wear.compose.material.rememberSwipeableState
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun InitialView(navController: NavController, modifier: Modifier = Modifier, onSwipeToSecond: () -> Unit) {
+fun InitialView(navController: NavController, modifier: Modifier = Modifier, onSwipeToSecond: () -> Unit,
+                showBottomBar: Boolean = false) {
     val swipeableState = rememberSwipeableState(0)
     val logoGreenify = painterResource(id = R.drawable.greenify)
     val logoEco = painterResource(id = R.drawable.logo_ecoespacio_2024)

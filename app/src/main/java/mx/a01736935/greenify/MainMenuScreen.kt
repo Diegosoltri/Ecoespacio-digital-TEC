@@ -216,7 +216,7 @@ fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifi
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainMenuView(navController: NavController) {
+fun MainMenuView(navController: NavController, showBottomBar: Boolean = true) {
     var selectedCategory by remember { mutableStateOf("All") }
 
             Column(modifier = Modifier

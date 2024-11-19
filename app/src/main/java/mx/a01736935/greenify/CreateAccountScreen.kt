@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun CreateAccountView(navController: NavController) {
+fun CreateAccountView(navController: NavController, showBottomBar: Boolean = false) {
     val logoGreenify = painterResource(id = R.drawable.greenify)
     val logoFb = painterResource(id = R.drawable.facebook)
     val logoGoogle = painterResource(id = R.drawable.google)
