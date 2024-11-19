@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -45,7 +46,7 @@ fun CreateAccountView(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp), // Añadir padding para no pegar todo al borde
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -61,6 +62,7 @@ fun CreateAccountView(navController: NavController) {
             value = name,
             onValueChange = { name = it },
             placeholder = { Text("Ingrese su nombre") },
+            shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -73,6 +75,7 @@ fun CreateAccountView(navController: NavController) {
             value = email,
             onValueChange = { email = it },
             placeholder = { Text("Ingrese su correo electrónico") },
+            shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -85,6 +88,7 @@ fun CreateAccountView(navController: NavController) {
             value = password,
             onValueChange = { password = it },
             placeholder = { Text("Ingrese su contraseña") },
+            shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation() // Para ocultar la contraseña
         )
@@ -98,6 +102,7 @@ fun CreateAccountView(navController: NavController) {
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
             placeholder = { Text("Confirme su contraseña") },
+            shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
@@ -105,7 +110,7 @@ fun CreateAccountView(navController: NavController) {
         Spacer(modifier = Modifier.height(5.dp))
 
         // Botón de registro
-        Button(onClick = { navController.navigate("forgotPasswordScreen") }, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = { navController.navigate("mainMenuScreen") }, modifier = Modifier.fillMaxWidth()) {
             Text("Registrarse")
         }
 
@@ -114,7 +119,7 @@ fun CreateAccountView(navController: NavController) {
         // Link para iniciar sesión
         Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {(navController.navigate("initialScreen"))}, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = {(navController.navigate("loginScreen"))}, modifier = Modifier.fillMaxWidth()) {
             Text("Inicia Sesión")
         }
 

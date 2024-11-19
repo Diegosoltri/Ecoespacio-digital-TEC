@@ -41,6 +41,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import mx.a01736935.greenify.data.DataSource
+import mx.a01736935.greenify.model.BadgeItem
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +72,10 @@ fun AppScaffold() {
 @Composable
 fun App(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = "initialScreen") {
-        composable("initialScreen") { InitialView(navController) }
+        composable("initialScreen") { InitialView(navController, onSwipeToSecond = {navController.navigate("secondScreen")})}
+        composable("secondScreen"){ SecondView(onSwipeToLogin = { navController.navigate("loginScreen")},
+            onSwipeBack = { navController.popBackStack()})}
+        composable("loginScreen"){LoginView(navController, onLoginSuccess = { navController.navigate("mainMenuScreen")})}
         composable("createAccountScreen") { CreateAccountView(navController) }
         composable("forgotPasswordScreen") { ForgotPasswordView(navController) }
         composable("mainMenuScreen") { MainMenuView(navController) }
@@ -79,86 +84,38 @@ fun App(navController: NavHostController, modifier: Modifier = Modifier) {
         composable("cameraScreen") { CameraView(navController) }
     }
 }
-/*
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(vertical = 8.dp)
-            .background(Color(0xFFE8F5E9)),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        NavigationIconButton(R.drawable.ic_home, "Inicio") { /* Acción */ }
-        NavigationIconButton(R.drawable.ic_gallery, "Galería") { /* Acción */ }
-        NavigationIconButton(R.drawable.ic_camera, "Cámara") { /* Acción */ }
-        NavigationIconButton(R.drawable.ic_user, "Perfil") { /* Acción */ }
-        NavigationIconButton(R.drawable.ic_star, "Favoritos") { /* Acción */ }
-    }
-}
 
-@Composable
-fun NavigationIconButton(iconRes: Int, label: String, onClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            painter = painterResource(id = iconRes),
-            contentDescription = label,
-            tint = Color(0xFF4CAF50),
-            modifier = Modifier.size(24.dp)
-        )
-        Text(
-            text = label,
-            fontSize = 12.sp,
-            color = Color(0xFF4CAF50),
-            textAlign = TextAlign.Center
-        )
-    }
-}
- */
 
 @Composable
 fun NavigationBarComponent(navController: NavHostController) {
     var selectedItem by remember { mutableIntStateOf(0) }
     NavigationBar {
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Info, contentDescription = "RewardScreen") },
-            label = { Text("Start") },
+            icon = { Icon(Icons.Filled.Build, contentDescription = "MainScreen") },
+            label = { Text("Main Menu") },
             selected = selectedItem == 0,
             onClick = {
                 selectedItem = 0
-                navController.navigate("InitialScreen")
+                navController.navigate("MainMenuScreen")
             }
         )
+
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "ChallengeScreen") },
-            label = { Text("Create Account") },
+            icon = { Icon(Icons.Filled.Build, contentDescription = "ArticleScreen") },
+            label = { Text("Articles") },
             selected = selectedItem == 1,
             onClick = {
                 selectedItem = 1
-                navController.navigate("CreateAccountScreen")
+                navController.navigate("ArticleScreen")
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "ProfileScreen") },
-            label = { Text("I forgor") },
+            icon = { Icon(Icons.Filled.Build, contentDescription = "CameraScreen") },
+            label = { Text("Camera") },
             selected = selectedItem == 2,
             onClick = {
                 selectedItem = 2
-                navController.navigate("ForgotPasswordScreen")
-            }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "MapScreen") },
-            label = { Text("Main Menu") },
-            selected = selectedItem == 3,
-            onClick = {
-                selectedItem = 3
-                navController.navigate("MainMenuScreen")
+                navController.navigate("CameraScreen")
             }
         )
         NavigationBarItem(
@@ -168,24 +125,6 @@ fun NavigationBarComponent(navController: NavHostController) {
             onClick = {
                 selectedItem = 4
                 navController.navigate("BadgesScreen")
-            }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "ArticleScreen") },
-            label = { Text("Articles") },
-            selected = selectedItem == 5,
-            onClick = {
-                selectedItem = 5
-                navController.navigate("ArticleScreen")
-            }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "CameraScreen") },
-            label = { Text("Camera") },
-            selected = selectedItem == 5,
-            onClick = {
-                selectedItem = 5
-                navController.navigate("CameraScreen")
             }
         )
     }

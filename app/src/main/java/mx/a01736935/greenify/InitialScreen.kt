@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,15 +24,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.wear.compose.material.ExperimentalWearMaterialApi
+import androidx.wear.compose.material.rememberSwipeableState
 
+@OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
+fun InitialView(navController: NavController, modifier: Modifier = Modifier, onSwipeToSecond: () -> Unit) {
+    val swipeableState = rememberSwipeableState(0)
     val logoGreenify = painterResource(id = R.drawable.greenify)
     val logoEco = painterResource(id = R.drawable.logo_ecoespacio_2024)
     val greenButton = painterResource(id = R.drawable.greenarrow)
     val greenCircle = painterResource(id = R.drawable.greencircle)
     val grayCircle = painterResource(id = R.drawable.graycircle)
 
+    LaunchedEffect(swipeableState.currentValue) {
+        when (swipeableState.currentValue) {
+            1 -> { onSwipeToSecond() // Deslizar a la izquierda: navegar a "start"
+            }
+        }
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -51,7 +62,7 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(40.dp))
         Row(horizontalArrangement = Arrangement.Center) {
-            Text(text = "Powered by", fontSize = 10.sp, color = Color.Gray)
+            Text(text = "Powered by", fontSize = 30.sp, color = Color.Gray)
             Image(painter = logoEco, contentDescription = "EcoEspacio", contentScale = ContentScale.FillWidth, modifier = Modifier.width(40.dp))
         }
         Spacer(modifier = Modifier.height(100.dp))
@@ -65,11 +76,15 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Image(painter = grayCircle, contentDescription = "NextScreen", contentScale = ContentScale.FillWidth, modifier = Modifier.width(20.dp))
             }
-            Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
-                .width(50.dp)
-                .clickable {
-                    navController.navigate("createAccountScreen")
+            Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth,
+                modifier = Modifier.width(50.dp).clickable {
+                    navController.navigate("secondScreen")
                 })
+        }
+    }
+    LaunchedEffect(swipeableState.currentValue) {
+        if (swipeableState.currentValue == 1) {
+            onSwipeToSecond()
         }
     }
 }

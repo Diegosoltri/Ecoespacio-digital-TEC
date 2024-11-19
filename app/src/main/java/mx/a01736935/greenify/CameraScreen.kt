@@ -31,14 +31,15 @@ import androidx.navigation.NavController
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
+import mx.a01736935.greenify.data.DataSource
 import mx.a01736935.greenify.model.BadgeItem
 
 @Composable
-fun CameraView(navController: NavController, badgeList: List<BadgeItem>) {
+fun CameraView(navController: NavController) {
     val context = LocalContext.current
     val scannedValue = remember { mutableStateOf("") }
     val showConfirmationIcon = remember { mutableStateOf(false) }
-
+    val badgeList = DataSource().loadBadges()
     // Lanzador para ZXing
     val scannerLauncher = rememberLauncherForActivityResult(
         contract = ScanContract()
