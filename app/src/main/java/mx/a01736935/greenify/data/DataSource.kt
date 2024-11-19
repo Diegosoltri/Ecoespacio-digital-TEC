@@ -12,17 +12,17 @@ import mx.a01736935.greenify.model.EcoChallenge
 class DataSource {
     fun loadEcoChallenges(): List<EcoChallenge> {
         return listOf(
-            EcoChallenge(R.drawable.imgbici, R.string.name1, R.string.desc1),
-            EcoChallenge(R.drawable.imgcamina, R.string.name2, R.string.desc2),
-            EcoChallenge(R.drawable.imgauto, R.string.name3, R.string.desc3),
-            EcoChallenge(R.drawable.imgcomposta, R.string.name4, R.string.desc4),
-            EcoChallenge(R.drawable.imgreciclado, R.string.name5, R.string.desc5),
-            EcoChallenge(R.drawable.imgdesechos, R.string.name6, R.string.desc6),
-            EcoChallenge(R.drawable.imgenergia, R.string.name7, R.string.desc7),
-            EcoChallenge(R.drawable.imgflora, R.string.name8, R.string.desc8),
-            EcoChallenge(R.drawable.imgregar, R.string.name9, R.string.desc9),
-            EcoChallenge(R.drawable.imgtermo, R.string.name10, R.string.desc10),
-            EcoChallenge(R.drawable.imgresiduos, R.string.name11, R.string.desc11),
+            EcoChallenge(R.drawable.imgbici, R.string.name1, R.string.desc1, R.string.category2),
+            EcoChallenge(R.drawable.imgcamina, R.string.name2, R.string.desc2, R.string.category2),
+            EcoChallenge(R.drawable.imgauto, R.string.name3, R.string.desc3,R.string.category2),
+            EcoChallenge(R.drawable.imgcomposta, R.string.name4, R.string.desc4, R.string.category5),
+            EcoChallenge(R.drawable.imgreciclado, R.string.name5, R.string.desc5, R.string.category5),
+            EcoChallenge(R.drawable.imgdesechos, R.string.name6, R.string.desc6, R.string.category5),
+            EcoChallenge(R.drawable.imgenergia, R.string.name7, R.string.desc7, R.string.category3),
+            EcoChallenge(R.drawable.imgflora, R.string.name8, R.string.desc8, R.string.category4),
+            EcoChallenge(R.drawable.imgregar, R.string.name9, R.string.desc9, R.string.category4),
+            EcoChallenge(R.drawable.imgtermo, R.string.name10, R.string.desc10, R.string.category4),
+            EcoChallenge(R.drawable.imgresiduos, R.string.name11, R.string.desc11, R.string.category5),
         )
     }
 
@@ -56,43 +56,43 @@ class DataSource {
                 R.drawable.reciclado,
                 R.string.badgeName5,
                 R.integer.progress5,
-                R.integer.maxProgress5
+                R.integer.maxProgress3
             ),
             BadgeItem(
                 R.drawable.desechos,
                 R.string.badgeName6,
                 R.integer.progress6,
-                R.integer.maxProgress6
+                R.integer.maxProgress3
             ),
             BadgeItem(
                 R.drawable.energia,
                 R.string.badgeName7,
                 R.integer.progress7,
-                R.integer.maxProgress7
+                R.integer.maxProgress3
             ),
             BadgeItem(
                 R.drawable.flora,
                 R.string.badgeName8,
                 R.integer.progress8,
-                R.integer.maxProgress8
+                R.integer.maxProgress3
             ),
             BadgeItem(
                 R.drawable.regar,
                 R.string.badgeName9,
                 R.integer.progress9,
-                R.integer.maxProgress9
+                R.integer.maxProgress3
             ),
             BadgeItem(
                 R.drawable.thermo,
                 R.string.badgeName10,
                 R.integer.progress10,
-                R.integer.maxProgress10
+                R.integer.maxProgress3
             ),
             BadgeItem(
                 R.drawable.residuos,
                 R.string.badgeName11,
                 R.integer.progress11,
-                R.integer.maxProgress11
+                R.integer.maxProgress3
             )
         )
     }

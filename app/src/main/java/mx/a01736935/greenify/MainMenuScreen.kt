@@ -3,6 +3,7 @@ package mx.a01736935.greenify
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,8 +50,13 @@ import mx.a01736935.greenify.data.DataSource
 
 @Composable
 fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) -> Unit) {
-    val categories = listOf("Todos", "Transporte", "Energía", "Residuos") // Categorías simplificadas
-
+    val categories = listOf(
+        stringResource(R.string.category1),
+        stringResource(R.string.category2),
+        stringResource(R.string.category3),
+        stringResource(R.string.category4),
+        stringResource(R.string.category5)
+    )
     LazyRow(
         modifier = Modifier
             .padding(vertical = 16.dp, horizontal = 8.dp)
@@ -67,6 +73,7 @@ fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) ->
     }
 }
 
+/*
 @Composable
 fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
     Button(
@@ -82,6 +89,25 @@ fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
         Text(text = category, fontSize = 14.sp, fontWeight = FontWeight.Bold)
     }
 }
+*/
+
+@Composable
+fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
+    Text(
+        text = category,
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable { onClick() }
+            .background(
+                if (isSelected) Color(0xFF4CAF50) else Color(0xFFE0E0E0),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        color = if (isSelected) Color.White else Color.Black,
+        fontSize = 14.sp
+    )
+}
+
 
 @Composable
 fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier) {
@@ -218,7 +244,14 @@ fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifi
 @Composable
 fun MainMenuView(navController: NavController, showBottomBar: Boolean = true) {
     var selectedCategory by remember { mutableStateOf("All") }
-
+    val allChallenges = remember { DataSource().loadEcoChallenges() } // Cargar todos los retos
+    val filteredChallenges = if (selectedCategory == "Todos") {
+        allChallenges // Mostrar todos si la categoría seleccionada es "Todos"
+    } else {
+        allChallenges.filter { challenge ->
+            stringResource(challenge.filterResId) == selectedCategory
+        }
+    }
             Column(modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF5F5F5)) ) {
@@ -243,6 +276,6 @@ fun MainMenuView(navController: NavController, showBottomBar: Boolean = true) {
                     onCategorySelected = { selectedCategory = it }
                 )
                 // Grid de retos basado en la categoría seleccionada
-                EcoChallengeGrid(challenges = DataSource().loadEcoChallenges())
+                EcoChallengeGrid(challenges = filteredChallenges)
             }
         }
