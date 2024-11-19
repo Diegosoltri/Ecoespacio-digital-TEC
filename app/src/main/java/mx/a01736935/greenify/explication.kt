@@ -22,9 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
 @Composable
@@ -94,9 +96,7 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(horizontalArrangement = Arrangement.Start) {
-                Image(painter = greenCircle, contentDescription = "CurrentScreen", contentScale = ContentScale.FillWidth, modifier = Modifier.width(20.dp))
-                Spacer(modifier = Modifier.width(8.dp))
-                Image(painter = grayCircle, contentDescription = "NextScreen", contentScale = ContentScale.FillWidth, modifier = Modifier.width(20.dp))
+
             }
             Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
                 .width(50.dp)
@@ -109,3 +109,13 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
 
 
     }
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewInitio() {
+    // Create a dummy NavController using rememberNavController
+    val navController = rememberNavController()
+
+    Initio(navController = navController)
+}

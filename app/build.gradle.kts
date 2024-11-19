@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.compose.material)
     implementation(libs.googleid)
+    implementation(libs.firebase.firestore.ktx)
 
     androidTestImplementation(libs.androidx.navigation.testing)
     implementation(libs.androidx.core.ktx)

@@ -1,6 +1,7 @@
 package mx.a01736935.greenify
 
 import android.annotation.SuppressLint
+import coil.compose.AsyncImage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,10 +48,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
+
 import mx.a01736935.greenify.model.EcoChallenge
 import mx.a01736935.greenify.data.DataSource
 
@@ -74,6 +76,21 @@ fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) ->
     }
 }
 
+
+
+@Composable
+fun ProfileImage(profileImageUrl: String?, onProfileClick: () -> Unit) {
+    // Usa AsyncImage de Coil para cargar la imagen desde la URL
+    AsyncImage(
+        model = profileImageUrl,
+        contentDescription = "Profile Photo",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(60.dp)
+            .padding(8.dp)
+            .clickable { onProfileClick() }
+    )
+}
 @Composable
 fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
     Button(
@@ -226,7 +243,7 @@ fun BottomNavigationBar(
 ) {
     BottomAppBar(
         contentColor = Color.White,
-        containerColor = Color(0xFF4CAF50), // Cambia el color de la barra según el estilo de tu app
+        containerColor = Color(0x4D4CAF50), // El prefijo 0x4D ajusta la opacidad (aproximadamente 30% de transparencia)
         modifier = Modifier
             .height(64.dp)
             .fillMaxWidth()
@@ -277,8 +294,6 @@ fun MainMenuView(
 ) {
     var selectedCategory by remember { mutableStateOf("All") }
 
-
-
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -295,66 +310,41 @@ fun MainMenuView(
                 .fillMaxSize()
                 .background(Color(0xFFF5F5F5))
         ) {
-            // Título y subtítulo
-            Text(
-                text = "GREENIFY",
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF4CAF50),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
-            Text(
-                text = "CONOCE NUESTROS NUEVOS RETOS!",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color(0xFF4CAF50),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-            )
+            // Agregamos un Spacer al inicio de la columna para empujar toda la sección más abajo
+            Spacer(modifier = Modifier.height(32.dp)) // Ajusta este valor según lo necesites
 
-            // Encabezado con foto de perfil y botón de cerrar sesión
+            // Row para alinear el texto y los elementos con la foto a la derecha
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
-                Text(
-                    text = "Greenify",
-                    textAlign = TextAlign.Center,
-                    lineHeight = 40.sp,
-                    fontSize = 50.sp,
-                    color = Color.Green
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.gadiro),
-                    contentDescription = "Profile Photo",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(60.dp)
-                        .padding(8.dp)
-                        .clickable { onProfileClick() } // Navegar al perfil
-                )
-
-                Button(
-                    onClick = onSignOutClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF4CAF50)
-                    )
+                // Columna para los textos a la izquierda
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.weight(1f) // Esto hace que el texto ocupe el espacio disponible
                 ) {
+                    // Título "GREENIFY"
                     Text(
-                        text = "Sign Out",
-                        color = Color.White,
+                        text = "GREENIFY",
+                        fontSize = 29.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF4CAF50),
+                        textAlign = TextAlign.Start,
+                    )
+                    // Subtítulo "CONOCE NUESTROS NUEVOS RETOS!"
+                    Text(
+                        text = "CONOCE NUESTROS NUEVOS RETOS!",
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF4CAF50),
+                        textAlign = TextAlign.Start
                     )
                 }
+
+
+
             }
 
             // Carrusel de categorías
@@ -368,3 +358,18 @@ fun MainMenuView(
         }
     }
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMainMenuView() {
+    // Dummy placeholders para las funciones que no son necesarias en el preview
+    val onSignOutClick = {}
+    val onProfileClick = {}
+
+    MainMenuView(
+        onSignOutClick = onSignOutClick,  // Usamos funciones vacías
+        onProfileClick = onProfileClick   // Usamos funciones vacías
+    )
+}
+

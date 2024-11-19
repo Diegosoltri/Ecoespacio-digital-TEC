@@ -20,9 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
@@ -40,32 +42,35 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(Color.White)
             .padding(30.dp)
+            //.background(Color(0xFFFAFAFA))
     ) {
         Spacer(modifier = Modifier.height(80.dp))
-        Image(painter = logoGreenify, contentDescription = "EcoMision", contentScale = ContentScale.FillWidth, modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.height(50.dp))
+        Image(
+            painter = logoGreenify,
+            contentDescription = "EcoMision",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .width(230.dp))
+        Spacer(modifier = Modifier.height(80.dp))
         Text(
             text = "Bienvenido a " + "Greenify",
             textAlign = TextAlign.Center,
             lineHeight = 40.sp,
             fontSize = 50.sp,
-            color = Color.Green
+            color = Color(0xFF66BB6A)
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Row(horizontalArrangement = Arrangement.Center) {
             Text(text = "Powered by", fontSize = 10.sp, color = Color.Gray)
             Image(painter = logoEco, contentDescription = "EcoEspacio", contentScale = ContentScale.FillWidth, modifier = Modifier.width(40.dp))
         }
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(120.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(horizontalArrangement = Arrangement.Start) {
-                Image(painter = greenCircle, contentDescription = "CurrentScreen", contentScale = ContentScale.FillWidth, modifier = Modifier.width(20.dp))
-                Spacer(modifier = Modifier.width(8.dp))
-                Image(painter = grayCircle, contentDescription = "NextScreen", contentScale = ContentScale.FillWidth, modifier = Modifier.width(20.dp))
             }
             Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
                 .width(50.dp)
@@ -74,4 +79,15 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
                 })
         }
     }
+}
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewInitialView() {
+    // Create a dummy NavController using rememberNavController
+    val navController = rememberNavController()
+
+    InitialView(navController = navController)
 }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -19,36 +20,77 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import mx.a01736935.greenify.MainActivity
+import mx.a01736935.greenify.R
+import mx.a01736935.greenify.presentation.UserId
+import mx.a01736935.greenify.presentation.getInstagramFromFirestore
 import java.io.File
 import java.io.FileOutputStream
+import mx.a01736935.greenify.presentation.getUserNameFromFirestore
+import mx.a01736935.greenify.presentation.saveInstagramToFirestore
+import mx.a01736935.greenify.presentation.saveUserNameToFirestore
+
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfilePage() {
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
-    var userName by remember { mutableStateOf("Nombre del Usuario") }
+    val userIdInstance = UserId()
+    val userId = userIdInstance.getUserId()
+
+    var instagramHandle by remember { mutableStateOf("") }
+    var userName by remember { mutableStateOf("Cargando...") }
+
+    LaunchedEffect(userId) {
+        if (userId != null) {
+            getUserNameFromFirestore(userId) { name ->
+                userName = name ?: "Usuario sin nombre"
+            }
+            getInstagramFromFirestore(userId) { instagram ->
+                instagramHandle = instagram ?: ""
+            }
+        }
+    }
 
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-
             content = {
                 var newUserName by remember { mutableStateOf("") }
+                var newInstagram by remember { mutableStateOf(instagramHandle) }
+
                 Column {
                     Text("Ingresa tu nuevo nombre")
                     TextField(
                         value = newUserName,
                         onValueChange = { newUserName = it }
                     )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text("Ingresa tu usuario de Instagram")
+                    TextField(
+                        value = newInstagram,
+                        onValueChange = { newInstagram = it }
+                    )
+
                     Button(onClick = {
-                        if (newUserName.isNotEmpty()) {
+                        if (newUserName.isNotEmpty() && newInstagram.isNotEmpty()) {
                             userName = newUserName
+                            instagramHandle = newInstagram
+                            userId?.let {
+                                saveUserNameToFirestore(it, newUserName)
+                                saveInstagramToFirestore(it, newInstagram) // Guardar Instagram
+                            }
                             showDialog = false
                         }
                     }) {
@@ -92,7 +134,7 @@ fun ProfilePage() {
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = userName, fontSize = 20.sp, color = Color.Black)
+            Text(text = userName, fontSize = 30.sp, color = Color.Black)
 
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -104,10 +146,32 @@ fun ProfilePage() {
                 )
                 Text(text = "120", fontSize = 18.sp, color = Color.Black)
             }
+
+            Spacer(modifier = Modifier.height(50.dp))
+            if (instagramHandle.isNotEmpty()) {
+                Icon(
+                    painter = painterResource(id = R.drawable.instagram__2_), // Reemplaza con tu recurso de ícono
+                    contentDescription = "Instagram",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clickable {
+                            openInstagramProfile(instagramHandle, context)
+                        },
+                    tint = Color.Unspecified
+                )
+            }
         }
     }
 }
 
+// Función para abrir el perfil de Instagram del usuario
+fun openInstagramProfile(instagramHandle: String, context: Context) {
+    val instagramUrl = "https://www.instagram.com/$instagramHandle/"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(instagramUrl))
+    context.startActivity(intent)
+}
+
+// Función para compartir captura de pantalla
 fun shareScreenshot(context: Context) {
     val rootView = (context as MainActivity).window.decorView.rootView
     val bitmap = Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
