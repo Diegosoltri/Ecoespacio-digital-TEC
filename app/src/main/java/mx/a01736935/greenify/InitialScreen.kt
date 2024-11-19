@@ -32,6 +32,8 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
     val greenCircle = painterResource(id = R.drawable.greencircle)
     val grayCircle = painterResource(id = R.drawable.graycircle)
 
+
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -68,7 +70,7 @@ fun InitialView(navController: NavController, modifier: Modifier = Modifier) {
             Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
                 .width(50.dp)
                 .clickable {
-                    navController.navigate("createAccountScreen")
+                    navController.navigate(Screen.explication.name)
                 })
         }
     }

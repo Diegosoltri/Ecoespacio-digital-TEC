@@ -30,7 +30,9 @@ const val WEB_CLIENT = "390208176910-0sage5goptts1hf64k1lsdckpdh00cmn.apps.googl
 enum class Screen {
     Login,
     Home,
-    ProfilePage
+    ProfilePage,
+    InitialView,
+    explication
 }
 
 class MainActivity : ComponentActivity() {
@@ -49,12 +51,22 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 val credentialManager = CredentialManager.create(context)
 
-                val startDestination = if (auth.currentUser == null) Screen.Login.name else Screen.Home.name
+                val startDestination = if (auth.currentUser == null) Screen.InitialView.name else Screen.Home.name
 
                 NavHost(
                     navController = navController,
                     startDestination = startDestination
                 ) {
+
+                    composable(Screen.InitialView.name){
+                        InitialView(navController = navController)
+                    }
+
+                    composable(Screen.explication.name){
+                        Initio(navController = navController)
+                    }
+
+
                     composable(Screen.Login.name) {
                         CreateAccountView(
                             onRegisterClick = { email, password ->

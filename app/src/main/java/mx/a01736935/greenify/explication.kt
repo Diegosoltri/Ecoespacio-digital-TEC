@@ -101,7 +101,7 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
             Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
                 .width(50.dp)
                 .clickable {
-                    navController.navigate("Iniciar_sesion")
+                    navController.navigate(Screen.Login.name)
                 })
         }
 
