@@ -15,10 +15,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -89,11 +94,14 @@ fun App(navController: NavHostController, modifier: Modifier = Modifier) {
 @Composable
 fun NavigationBarComponent(navController: NavHostController) {
     var selectedItem by remember { mutableIntStateOf(0) }
-    NavigationBar {
+    NavigationBar(containerColor = Color(0xFFFFFFA1)){
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "MainScreen") },
-            label = { Text("Main Menu") },
+            icon = { Icon(Icons.Outlined.Home, contentDescription = "MainScreen", tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
             selected = selectedItem == 0,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
             onClick = {
                 selectedItem = 0
                 navController.navigate("MainMenuScreen")
@@ -101,26 +109,35 @@ fun NavigationBarComponent(navController: NavHostController) {
         )
 
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "ArticleScreen") },
-            label = { Text("Articles") },
+            icon = { Icon(Icons.Filled.Search, contentDescription = "ArticleScreen",tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
             selected = selectedItem == 1,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
             onClick = {
                 selectedItem = 1
                 navController.navigate("ArticleScreen")
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "CameraScreen") },
-            label = { Text("Camera") },
+            icon = { Icon(painter = painterResource(id = R.drawable.camera), contentDescription = "CameraScreen",tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
             selected = selectedItem == 2,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
             onClick = {
                 selectedItem = 2
                 navController.navigate("CameraScreen")
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Build, contentDescription = "BadgesScreen") },
-            label = { Text("Badges") },
+            icon = { Icon(Icons.Filled.Star, contentDescription = "BadgesScreen",tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
             selected = selectedItem == 4,
             onClick = {
                 selectedItem = 4
