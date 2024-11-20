@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import mx.a01736935.greenify.MainActivity
 import mx.a01736935.greenify.R
@@ -62,8 +63,7 @@ fun ProfilePage() {
     }
 
     if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
+        BasicAlertDialog(onDismissRequest = { showDialog = false },
             content = {
                 var newUserName by remember { mutableStateOf("") }
                 var newInstagram by remember { mutableStateOf(instagramHandle) }
@@ -126,7 +126,7 @@ fun ProfilePage() {
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = rememberImagePainter("https://example.com/profile_picture.jpg"),
+                painter = rememberAsyncImagePainter("https://example.com/profile_picture.jpg"),
                 contentDescription = "Foto de perfil",
                 modifier = Modifier
                     .size(120.dp)
