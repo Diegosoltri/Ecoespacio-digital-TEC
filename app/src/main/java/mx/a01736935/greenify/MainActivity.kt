@@ -30,6 +30,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import mx.a01736935.greenify.ui.theme.GreenifyTheme
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -102,39 +105,45 @@ fun App(navController: NavHostController, modifier: Modifier = Modifier) {
 fun OnGoogleSignInClick(navController: NavHostController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+
+    // Inicializar FirebaseAuth
+    val auth = FirebaseAuth.getInstance()
+
+    // Configuración para Google Sign-In
     val credentialManager = CredentialManager.create(context)
     val googleIdOption = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(false)
-        .setServerClientId(WEB_CLIENT)
+        .setServerClientId(WEB_CLIENT) // Asegúrate de definir correctamente WEB_CLIENT
         .build()
-
 
     val request = GetCredentialRequest.Builder()
         .addCredentialOption(googleIdOption)
         .build()
 
-
     scope.launch {
         try {
+            // Obtener credenciales
             val result = credentialManager.getCredential(
                 context = context,
                 request = request
             )
             val credential = result.credential
-            val googleIdTokenCredential = GoogleIdTokenCredential
-                .createFrom(credential.data)
+            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
             val googleIdToken = googleIdTokenCredential.idToken
 
+            // Convertir credenciales de Google a credenciales de Firebase
+            val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
 
-            val firebaseCredential =
-                GoogleAuthProvider.getCredential(googleIdToken, null)
-
-
+            // Autenticar en Firebase con las credenciales de Google
             auth.signInWithCredential(firebaseCredential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        // Si el inicio de sesión es exitoso, redirigir al usuario
                         navController.popBackStack()
                         navController.navigate("mainMenuView")
+                    } else {
+                        // Manejo de errores
+                        Toast.makeText(context, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
                     }
                 }
         } catch (e: Exception) {
@@ -147,6 +156,7 @@ fun OnGoogleSignInClick(navController: NavHostController, modifier: Modifier = M
         }
     }
 }
+
 
 @Composable
 fun NavigationBarComponent(navController: NavHostController, modifier: Modifier = Modifier) {
