@@ -247,6 +247,7 @@ fun BottomNavigationBar(
         modifier = Modifier
             .height(64.dp)
             .fillMaxWidth()
+
     ) {
         // Íconos de navegación (izquierda y derecha de la barra)
         IconButton(onClick = { /* Acción para la primera opción */ }) {

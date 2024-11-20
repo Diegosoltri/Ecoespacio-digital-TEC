@@ -72,54 +72,7 @@ fun CreateAccountView(
                 .padding(bottom = 16.dp)
         )
 
-     /*   // Correo
-        Text(text = "Correo", fontSize = 18.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            placeholder = { Text("Ingrese su correo electrónico") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // Contraseña
-        Text(text = "Contraseña", fontSize = 18.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            placeholder = { Text("Ingrese su contraseña") },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(onClick = { authenticationManager.loginWithEmail(email, password)
-            .onEach { response ->
-                if (response is AuthenticationManager.AuthResponse.Success){
-
-                }
-            }
-            .launchIn(coroutineScope)
-                         }, modifier = Modifier.fillMaxWidth()) {
-            Text("Registrarse")
-        }
-
-
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(text = "O inicia sesión con redes sociales", fontSize = 14.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(10.dp))
-*/        // Botón para iniciar sesión con Google
+        // Botón para iniciar sesión con Google
         Button(
             onClick = { onGoogleSignInClick() },
             modifier = Modifier
