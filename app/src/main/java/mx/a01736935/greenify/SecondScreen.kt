@@ -63,6 +63,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -73,7 +74,7 @@ import androidx.wear.compose.material.swipeable
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun SecondView(modifier: Modifier = Modifier, onSwipeToLogin: () -> Unit,
+fun SecondView(navController: NavController, modifier: Modifier = Modifier, onSwipeToLogin: () -> Unit,
     onSwipeBack: () -> Unit, showBottomBar: Boolean = false
 ) {
     val swipeableState = rememberSwipeableState(0)
@@ -172,13 +173,12 @@ fun SecondView(modifier: Modifier = Modifier, onSwipeToLogin: () -> Unit,
                 )
             }
 
-            Image(
-                painter = arrow,
-                contentDescription = "Forward",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .width(50.dp)
-            )
+
+            Image(painter = arrow, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
+                .width(50.dp)
+                .clickable {
+                    navController.navigate("loginScreen")
+                })
         }
     }
 

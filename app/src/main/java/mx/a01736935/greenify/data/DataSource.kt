@@ -6,7 +6,6 @@ import mx.a01736935.greenify.model.ArticleEnergy
 import mx.a01736935.greenify.model.ArticleConsumption
 import mx.a01736935.greenify.model.ArticleWaste
 import mx.a01736935.greenify.model.ArticleItem
-import mx.a01736935.greenify.model.BadgeItem
 import mx.a01736935.greenify.model.EcoChallenge
 
 class DataSource {

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Greenify</string>
+    <string name="WEB_CLIENT">"390208176910–0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com"</string>
     <!--Nombres de los retos-->
     <string name="name1">Usa la bicicleta para llegar al TEC</string>
     <string name="name2">Camina 3 KM</string>

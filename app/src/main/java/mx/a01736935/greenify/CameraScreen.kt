@@ -35,8 +35,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-import mx.a01736935.greenify.data.DataSource
-import mx.a01736935.greenify.model.BadgeItem
 
 @Composable
 fun CameraView(navController: NavController, showBottomBar: Boolean = true) {

@@ -14,16 +14,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import mx.a01736935.greenify.data.DataSource
-import mx.a01736935.greenify.model.BadgeItem
+import com.google.firebase.auth.FirebaseAuth
+import mx.a01736935.greenify.model.logros
 
 
 @Composable
@@ -91,7 +89,7 @@ fun BadgesButton(badge: String, isSelected: Boolean, onClick: () -> Unit) {
 
 
 @Composable
-fun BadgesList(badges: List<BadgeItem>, modifier: Modifier = Modifier) {
+fun BadgesList(badges: List<logros>, modifier: Modifier = Modifier) {
     if (badges.isEmpty()) {
         // Mostrar un mensaje cuando no hay logros en la categoría seleccionada
         Box(
@@ -125,7 +123,7 @@ object BadgeRepository {
     @SuppressLint("StaticFieldLeak")
     private val db = FirebaseFirestore.getInstance()
 
-    suspend fun loadBadges(userId: String): List<BadgeItem> {
+    suspend fun loadBadges(userId: String): List<logros> {
         return try {
             db.collection("users")
                 .document(userId)
@@ -134,7 +132,7 @@ object BadgeRepository {
                 .await()
                 .documents
                 .mapNotNull { document ->
-                    val badge = document.toObject(BadgeItem::class.java)
+                    val badge = document.toObject(logros::class.java)
                     badge?.copy(
                         estrellasActuales = document.getLong("estrellasActuales")?.toInt() ?: 0,
                         estrellasPorActividad = document.getLong("estrellasPorActividad")?.toInt() ?: 0,
@@ -171,7 +169,7 @@ fun getImageResId(imageName: String): Int {
 
 
 @Composable
-fun BadgeRow(badge: BadgeItem) {
+fun BadgeRow(badge: logros) {
     val progress = badge.estrellasActuales.toFloat()
     val maxProgress = badge.estrellasRequeridas.toFloat()
 
@@ -215,22 +213,16 @@ fun BadgeRow(badge: BadgeItem) {
 
 @Composable
 fun BadgesView(navController: NavController, showBottomBar: Boolean = true) {
-    val userId = "USER_ID_AQUI" // Sustituye con el ID del usuario autenticado
+    val userId = FirebaseAuth.getInstance().currentUser?.uid // Sustituye con el ID del usuario autenticado
     var selectedBadge by remember { mutableStateOf("Todos") }
-    var badges by remember { mutableStateOf<List<BadgeItem>>(emptyList()) }
-    val allBadges = remember { BadgeRepository.loadBadges("userId") }
-    var filteredBadges = when (selectedBadge) {
-        "Desbloqueados" -> allBadges.filter { it.estrellasActuales == it.estrellasRequeridas }
-        "Próximos" -> allBadges.filter { it.estrellasActuales > 0 && it.estrellasActuales < it.estrellasRequeridas }
-        "Todos" -> allBadges
-        else -> emptyList()
-    }
+    var badges by remember { mutableStateOf<List<logros>>(emptyList()) }
+    var filteredBadges by remember { mutableStateOf<List<logros>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
     // Cargar las insignias desde Firebase al inicio
     LaunchedEffect(Unit) {
         isLoading = true
-        badges = BadgeRepository.loadBadges(userId)
+        badges = userId?.let { BadgeRepository.loadBadges(it) }!!
         isLoading = false
         filteredBadges = badges // Mostrar todas inicialmente
     }
@@ -273,6 +265,7 @@ fun BadgesView(navController: NavController, showBottomBar: Boolean = true) {
         }
     }
 }
+
 
 
 

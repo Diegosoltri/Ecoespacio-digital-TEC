@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
+    id("com.google.gms.google-services")
     alias(libs.plugins.jetbrains.kotlin.android)
+
 }
 
 android {
@@ -53,6 +55,7 @@ android {
 
 dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
+    //implementation(libs.google.firebase.analytics)
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
@@ -67,10 +70,16 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth.ktx)
     androidTestImplementation(libs.androidx.navigation.testing)
+    //implementation(libs.play.services.auth)
+    val credentialsManagerVersion = "1.5.0-alpha05"
+    implementation("androidx.credentials:credentials:$credentialsManagerVersion")
+    implementation("androidx.credentials:credentials-play-services-auth:$credentialsManagerVersion")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation (libs.coil.compose)
     implementation(libs.androidx.ui)
     implementation(libs.qr.scanner)
     implementation(libs.androidx.ui.graphics)

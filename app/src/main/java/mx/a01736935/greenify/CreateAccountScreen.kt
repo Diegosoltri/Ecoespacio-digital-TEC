@@ -31,15 +31,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mx.a01736935.greenify.authentification.AuthenticationManager
 
 /* navController: NavController,*/
 @Composable
-fun CreateAccountView(
-    onRegisterClick: (email: String, password: String) -> Unit,
-    onGoogleSignInClick: () -> Unit // Agregar un callback para el botón de Google
+fun CreateAccountView(navController: NavController, showBottomBar:Boolean =false,
+    //onRegisterClick: (email: String, password: String) -> Unit,
+    //onGoogleSignInClick: () -> Unit // Agregar un callback para el botón de Google
 ) {
     val logoGreenify = painterResource(id = R.drawable.greenify)
     val logoGoogle = painterResource(id = R.drawable.google)
@@ -74,7 +75,8 @@ fun CreateAccountView(
 
         // Botón para iniciar sesión con Google
         Button(
-            onClick = { onGoogleSignInClick() },
+            onClick = { //onGoogleSignInClick()
+                },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -89,18 +91,4 @@ fun CreateAccountView(
             Text(text = "Iniciar sesión con Google", color = Color.Black)
         }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCreateAccountView() {
-    CreateAccountView(
-        onRegisterClick = { email, password ->
-            // Acción de prueba para registro
-        },
-        onGoogleSignInClick = {
-            // Acción de prueba para inicio de sesión con Google
-        }
-    )
 }

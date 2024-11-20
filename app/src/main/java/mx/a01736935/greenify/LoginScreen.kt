@@ -74,7 +74,9 @@ import androidx.wear.compose.material.swipeable
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLoginSuccess: () -> Unit, showBottomBar: Boolean = false) {
+fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLoginSuccess: () -> Unit,
+              //onGoogleSignInClick: () -> Unit
+              showBottomBar: Boolean = false) {
     val swipeableState = rememberSwipeableState(0)
     val anchors = mapOf(0f to 0, 150f to 1)
     val logo = painterResource(id = R.drawable.greenify)
@@ -155,7 +157,10 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLog
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
-        ) { IconButton(onClick = { /* Lógica para login con Google */ }) {
+        ) { IconButton(onClick = {
+            //onGoogleSignInClick()
+            }
+        ) {
                 Image(painter = painterResource(R.drawable.google), contentDescription = "Login with Google",
                     modifier = Modifier.size(30.dp)
                 )
