@@ -17,6 +17,7 @@ qrScanner = "4.3.0"
 composeMaterial = "1.4.0"
 firebaseFirestoreKtx = "25.1.1"
 firebaseAuthKtx = "23.1.0"
+play-services-auth = "20.7.0"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraExtensions" }
@@ -50,6 +51,7 @@ qr-scanner = { group = "com.journeyapps", name = "zxing-android-embedded", versi
 androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
