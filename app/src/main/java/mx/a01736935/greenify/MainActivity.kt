@@ -1,6 +1,8 @@
 package mx.a01736935.greenify
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -27,12 +29,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import mx.a01736935.greenify.ui.theme.GreenifyTheme
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.launch
+
+const val WEB_CLIENT = "390208176910-0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +97,63 @@ fun App(navController: NavHostController, modifier: Modifier = Modifier) {
         composable("badgesScreen") { BadgesView(navController, showBottomBar = false)  }
         composable("articleScreen") { ArticleView(navController, showBottomBar = false)}
         composable("cameraScreen") { CameraView(navController, showBottomBar = false) }
+    }
+}
+
+@SuppressLint("CoroutineCreationDuringComposition")
+@Composable
+fun OnGoogleSignInClick(navController: NavHostController, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    // Inicializar FirebaseAuth
+    val auth = FirebaseAuth.getInstance()
+
+    // Configuración para Google Sign-In
+    val credentialManager = CredentialManager.create(context)
+    val googleIdOption = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(false)
+        .setServerClientId(WEB_CLIENT) // Asegúrate de definir correctamente WEB_CLIENT
+        .build()
+
+    val request = GetCredentialRequest.Builder()
+        .addCredentialOption(googleIdOption)
+        .build()
+
+    scope.launch {
+        try {
+            // Obtener credenciales
+            val result = credentialManager.getCredential(
+                context = context,
+                request = request
+            )
+            val credential = result.credential
+            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+            val googleIdToken = googleIdTokenCredential.idToken
+
+            // Convertir credenciales de Google a credenciales de Firebase
+            val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
+
+            // Autenticar en Firebase con las credenciales de Google
+            auth.signInWithCredential(firebaseCredential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Si el inicio de sesión es exitoso, redirigir al usuario
+                        navController.popBackStack()
+                        navController.navigate("mainMenuView")
+                    } else {
+                        // Manejo de errores
+                        Toast.makeText(context, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                "Error: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+            e.printStackTrace()
+        }
     }
 }
 
