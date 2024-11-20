@@ -89,7 +89,7 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
 
         )
 
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(80.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -99,7 +99,8 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
 
             }
             Image(painter = greenButton, contentDescription = "Forward", contentScale = ContentScale.FillWidth, modifier = Modifier
-                .width(50.dp)
+                .width(60.dp)
+                .padding(bottom = 30.dp)
                 .clickable {
                     navController.navigate(Screen.Login.name)
                 })
