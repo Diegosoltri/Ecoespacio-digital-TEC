@@ -141,7 +141,7 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLog
                 }
         )
 
-        Button(onClick = {}, shape = RoundedCornerShape(12.dp), colors = ButtonDefaults.buttonColors(
+        Button(onClick = {navController.navigate("createAccountScreen")}, shape = RoundedCornerShape(12.dp), colors = ButtonDefaults.buttonColors(
                 containerColor = lightGreenCustom, contentColor = Color.White
             ),
             modifier = Modifier.fillMaxWidth(0.9f).padding(top = 30.dp)
