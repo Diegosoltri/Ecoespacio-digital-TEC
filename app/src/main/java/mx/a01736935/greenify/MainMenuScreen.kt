@@ -1,7 +1,6 @@
 package mx.a01736935.greenify
 
 import android.annotation.SuppressLint
-import coil.compose.AsyncImage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,17 +21,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,18 +41,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-
+import androidx.navigation.NavController
 import mx.a01736935.greenify.model.EcoChallenge
 import mx.a01736935.greenify.data.DataSource
 
 @Composable
 fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) -> Unit) {
-    val categories = listOf("Todos", "Transporte", "Energía", "Residuos") // Categorías simplificadas
-
+    val categories = listOf(
+        stringResource(R.string.category1),
+        stringResource(R.string.category2),
+        stringResource(R.string.category3),
+        stringResource(R.string.category4),
+        stringResource(R.string.category5)
+    )
     LazyRow(
         modifier = Modifier
             .padding(vertical = 16.dp, horizontal = 8.dp)
@@ -76,21 +73,7 @@ fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) ->
     }
 }
 
-
-
-@Composable
-fun ProfileImage(profileImageUrl: String?, onProfileClick: () -> Unit) {
-    // Usa AsyncImage de Coil para cargar la imagen desde la URL
-    AsyncImage(
-        model = profileImageUrl,
-        contentDescription = "Profile Photo",
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(60.dp)
-            .padding(8.dp)
-            .clickable { onProfileClick() }
-    )
-}
+/*
 @Composable
 fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
     Button(
@@ -106,6 +89,25 @@ fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
         Text(text = category, fontSize = 14.sp, fontWeight = FontWeight.Bold)
     }
 }
+*/
+
+@Composable
+fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
+    Text(
+        text = category,
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable { onClick() }
+            .background(
+                if (isSelected) Color(0xFF4CAF50) else Color(0xFFE0E0E0),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        color = if (isSelected) Color.White else Color.Black,
+        fontSize = 14.sp
+    )
+}
+
 
 @Composable
 fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier) {
@@ -237,140 +239,43 @@ fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifi
         }
     )
 }
-@Composable
-fun BottomNavigationBar(
-    onProfileClick: () -> Unit // Añadido el parámetro
-) {
-    BottomAppBar(
-        contentColor = Color.White,
-        containerColor = Color(0x4D4CAF50), // El prefijo 0x4D ajusta la opacidad (aproximadamente 30% de transparencia)
-        modifier = Modifier
-            .height(64.dp)
-            .fillMaxWidth()
 
-    ) {
-        // Íconos de navegación (izquierda y derecha de la barra)
-        IconButton(onClick = { /* Acción para la primera opción */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_home),
-                contentDescription = "Home",
-                tint = Color.White
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f)) // Espaciador para centrar el contenido
-
-        // Icono de perfil que lleva al perfil del usuario
-        IconButton(onClick = onProfileClick) {  // Modificado para usar el parámetro
-            Icon(
-                painter = painterResource(id = R.drawable.ic_profile),
-                contentDescription = "Profile",
-                tint = Color.White
-            )
-        }
-    }
-}
-
-
-@Composable
-fun CameraButton() {
-    FloatingActionButton(
-        onClick = { /* Acción de la cámara */ },
-        containerColor = Color(0xFF4CAF50), // Color de fondo del botón
-        shape = MaterialTheme.shapes.large, // Puedes cambiar la forma si lo deseas
-        modifier = Modifier.size(64.dp) // Ajuste del tamaño del FAB
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_camera),
-            contentDescription = "Camera",
-            tint = Color.White
-        )
-    }
-}
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainMenuView(
-    onSignOutClick: () -> Unit,
-    onProfileClick: () -> Unit
-) {
+fun MainMenuView(navController: NavController, showBottomBar: Boolean = true) {
     var selectedCategory by remember { mutableStateOf("All") }
-
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                onProfileClick = onProfileClick // Agregado para navegación al perfil
-            )
-        },
-        floatingActionButton = {
-            CameraButton()
-        },
-        floatingActionButtonPosition = FabPosition.Center
-    ) {
-        Column(
-            modifier = Modifier
+    val allChallenges = remember { DataSource().loadEcoChallenges() } // Cargar todos los retos
+    val filteredChallenges = if (selectedCategory == "Todos") {
+        allChallenges // Mostrar todos si la categoría seleccionada es "Todos"
+    } else {
+        allChallenges.filter { challenge ->
+            stringResource(challenge.filterResId) == selectedCategory
+        }
+    }
+            Column(modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF5F5F5))
-        ) {
-            // Agregamos un Spacer al inicio de la columna para empujar toda la sección más abajo
-            Spacer(modifier = Modifier.height(32.dp)) // Ajusta este valor según lo necesites
-
-            // Row para alinear el texto y los elementos con la foto a la derecha
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 16.dp)
-            ) {
-                // Columna para los textos a la izquierda
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier.weight(1f) // Esto hace que el texto ocupe el espacio disponible
-                ) {
-                    // Título "GREENIFY"
+                .background(Color(0xFFF5F5F5)) ) {
                     Text(
                         text = "GREENIFY",
-                        fontSize = 29.sp,
+                        fontSize = 36.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF4CAF50),
-                        textAlign = TextAlign.Start,
+                        textAlign = TextAlign.Center
                     )
-                    // Subtítulo "CONOCE NUESTROS NUEVOS RETOS!"
                     Text(
                         text = "CONOCE NUESTROS NUEVOS RETOS!",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF4CAF50),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
-                }
-
-
-
+                // Carrusel de categorías
+                CategoriesCarousel(
+                    selectedCategory = selectedCategory,
+                    onCategorySelected = { selectedCategory = it }
+                )
+                // Grid de retos basado en la categoría seleccionada
+                EcoChallengeGrid(challenges = filteredChallenges)
             }
-
-            // Carrusel de categorías
-            CategoriesCarousel(
-                selectedCategory = selectedCategory,
-                onCategorySelected = { selectedCategory = it }
-            )
-
-            // Grid de retos basado en la categoría seleccionada
-            EcoChallengeGrid(challenges = DataSource().loadEcoChallenges())
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewMainMenuView() {
-    // Dummy placeholders para las funciones que no son necesarias en el preview
-    val onSignOutClick = {}
-    val onProfileClick = {}
-
-    MainMenuView(
-        onSignOutClick = onSignOutClick,  // Usamos funciones vacías
-        onProfileClick = onProfileClick   // Usamos funciones vacías
-    )
-}
-

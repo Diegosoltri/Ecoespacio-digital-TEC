@@ -12,7 +12,6 @@
     <string name="name9">Riega el vívero TEC</string>
     <string name="name10">Trae tu propio termo</string>
     <string name="name11">Aprende a separar tus residuos</string>
-    <string name="WEB_CLIENT">"390208176910–0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com"</string>
     <!--Descripción de los retos -->
     <string name="desc1">Promueve el transporte sostenible utilizando tu bicicleta para llegar al campus. Es una excelente manera de reducir emisiones y mejorar tu salud. Aulas II</string>
     <string name="desc2">Realiza una caminata de 3 kilómetros, disfrutando del entorno natural y reduciendo tu huella de carbono mientras cuidas tu cuerpo. LIFE</string>
@@ -50,17 +49,16 @@
     <integer name="progress10">20</integer>
     <integer name="progress11">20</integer>
     <!--Progreso para acabar cada reto/medalla-->
-    <integer name="maxProgress1">100</integer>
+    <integer name="maxProgress1">50</integer>
     <integer name="maxProgress2">100</integer>
-    <integer name="maxProgress3">100</integer>
-    <integer name="maxProgress4">100</integer>
-    <integer name="maxProgress5">100</integer>
-    <integer name="maxProgress6">100</integer>
-    <integer name="maxProgress7">100</integer>
-    <integer name="maxProgress8">100</integer>
-    <integer name="maxProgress9">100</integer>
-    <integer name="maxProgress10">100</integer>
-    <integer name="maxProgress11">100</integer>
+    <integer name="maxProgress3">150</integer>
+    <integer name="maxProgress4">200</integer>
+    <!--Categorías de retos-->
+    <string name="category1">Todos</string>
+    <string name="category2">Transporte</string>
+    <string name="category3">Energía</string>
+    <string name="category4">Consumo</string>
+    <string name="category5">Residuos</string>
     <!--Link de la guía-->
     <string name="drive_link">https://drive.google.com/file/d/1dta8BKrz4zCz3BS4PdqqO-pQKGuqwyWl/view?usp=sharing</string>
     <!--Transporte-->

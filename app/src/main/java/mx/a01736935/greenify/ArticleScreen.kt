@@ -57,7 +57,7 @@ import mx.a01736935.greenify.data.DataSource
 
 @Composable
 fun ArticleCarousel(selectedArticle: String, onArticleSelected: (String) -> Unit) {
-    val articles = listOf("Todos", "Transporte", "Energía", "Consumo", "Desecho") // Lista de categorías
+    val articles = listOf("Transporte", "Energía", "Consumo", "Desecho") // Lista de categorías
 
     LazyRow(
         modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp),
@@ -90,7 +90,7 @@ fun ArticleButton(article: String, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun ArticleView(navController: NavController) {
+fun ArticleView(navController: NavController, showBottomBar: Boolean = false) {
     val context = LocalContext.current
     val guideUrl = "https://drive.google.com/file/d/1dta8BKrz4zCz3BS4PdqqO-pQKGuqwyWl/view?usp=sharing"
 
@@ -113,7 +113,6 @@ fun ArticleView(navController: NavController) {
             "Consumo" -> context.getString(consumptionTips.random().consumptionResId)
             "Desecho" -> context.getString(wasteTips.random().wasteResId)
             else -> {
-                // Concatenar todas las listas y seleccionar un elemento aleatorio
                 context.getString(articleTips.random().articleResId)
             }
         }
@@ -122,7 +121,9 @@ fun ArticleView(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .background(Color.White),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Título
@@ -158,7 +159,7 @@ fun ArticleView(navController: NavController) {
             onArticleSelected = { selectedCategory = it }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         // Texto del consejo actual
         Text(
@@ -169,7 +170,7 @@ fun ArticleView(navController: NavController) {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         // Botón para generar un nuevo consejo
         Button(

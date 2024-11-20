@@ -1,144 +1,160 @@
 package mx.a01736935.greenify
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.credentials.ClearCredentialStateRequest
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import mx.a01736935.greenify.ui.theme.GreenifyTheme
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
-import mx.a01736935.greenify.ui.theme.GreenifyTheme
-import mx.a01736935.greenify.viewmodel.AuthViewModel
-import mx.a01736935.greenify.viewmodel.ProfilePage
-
-const val WEB_CLIENT = "390208176910-0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com"
-
-enum class Screen {
-    Login,
-    Home,
-    ProfilePage,
-    InitialView,
-    explication
-}
+import mx.a01736935.greenify.data.DataSource
+import mx.a01736935.greenify.model.BadgeItem
 
 class MainActivity : ComponentActivity() {
-    private lateinit var auth: FirebaseAuth
-    private val authViewModel: AuthViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        auth = Firebase.auth
-
         setContent {
-            GreenifyTheme {
-                val navController = rememberNavController()
-                val context = LocalContext.current
-                val scope = rememberCoroutineScope()
-                val credentialManager = CredentialManager.create(context)
-
-                val startDestination = if (auth.currentUser == null) Screen.InitialView.name else Screen.Home.name
-
-                NavHost(
-                    navController = navController,
-                    startDestination = startDestination
-                ) {
-
-                    composable(Screen.InitialView.name){
-                        InitialView(navController = navController)
-                    }
-
-                    composable(Screen.explication.name){
-                        Initio(navController = navController)
-                    }
-
-
-                    composable(Screen.Login.name) {
-                        CreateAccountView(
-                            onRegisterClick = { email, password ->
-                                authViewModel.registerUser(email, password)
-                            },
-                            onGoogleSignInClick = {
-                                val googleIdOption = GetGoogleIdOption.Builder()
-                                    .setFilterByAuthorizedAccounts(false)
-                                    .setServerClientId(WEB_CLIENT)
-                                    .build()
-
-                                val request = GetCredentialRequest.Builder()
-                                    .addCredentialOption(googleIdOption)
-                                    .build()
-
-                                scope.launch {
-                                    try {
-                                        val result = credentialManager.getCredential(
-                                            context = context,
-                                            request = request
-                                        )
-                                        val credential = result.credential
-                                        val googleIdTokenCredential = GoogleIdTokenCredential
-                                            .createFrom(credential.data)
-                                        val googleIdToken = googleIdTokenCredential.idToken
-
-                                        val firebaseCredential =
-                                            GoogleAuthProvider.getCredential(googleIdToken, null)
-
-                                        auth.signInWithCredential(firebaseCredential)
-                                            .addOnCompleteListener { task ->
-                                                if (task.isSuccessful) {
-                                                    navController.popBackStack()
-                                                    navController.navigate(Screen.Home.name)
-                                                }
-                                            }
-                                    } catch (e: Exception) {
-                                        Toast.makeText(
-                                            context,
-                                            "Error: ${e.message}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        e.printStackTrace()
-                                    }
-                                }
-                            }
-                        )
-                    }
-
-                    composable(Screen.Home.name) {
-                        MainMenuView(
-                            onSignOutClick = {
-                                auth.signOut()
-                                scope.launch {
-                                    credentialManager.clearCredentialState(
-                                        ClearCredentialStateRequest()
-                                    )
-                                }
-                                navController.popBackStack()
-                                navController.navigate(Screen.Login.name)
-                            },
-                            onProfileClick = {
-                                navController.navigate(Screen.ProfilePage.name)
-                            }
-                        )
-                    }
-
-                    composable(Screen.ProfilePage.name) {
-                        ProfilePage()
-                    }
-                }
+            GreenifyTheme{
+                AppScaffold()
             }
         }
+    }
+}
+
+@Composable
+fun AppScaffold() {
+    val navController = rememberNavController()
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+    // Determina si se debe mostrar la barra de navegación
+    val showBottomBar = when (currentRoute) {
+        "initialScreen", "secondScreen", "loginScreen","createAccountScreen","forgotPasswordScreen" -> false
+        else -> true
+    }
+    Scaffold(
+        bottomBar = {
+            if (showBottomBar) {
+                NavigationBarComponent(navController)
+            }
+        },
+        content = { innerPadding ->
+            App(navController, Modifier.padding(innerPadding))
+        }
+    )
+}
+
+@Composable
+fun App(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController = navController, startDestination = "initialScreen") {
+        composable("initialScreen") { InitialView(navController,showBottomBar = false, onSwipeToSecond = {navController.navigate("secondScreen")})}
+        composable("secondScreen"){ SecondView(showBottomBar = false, onSwipeToLogin = { navController.navigate("loginScreen")},
+            onSwipeBack = { navController.popBackStack()})}
+        composable("loginScreen"){LoginView(navController, showBottomBar = false, onLoginSuccess = { navController.navigate("mainMenuScreen")})}
+        composable("createAccountScreen") { CreateAccountView(navController, showBottomBar = false) }
+        composable("forgotPasswordScreen") { ForgotPasswordView(navController, showBottomBar = false) }
+        composable("mainMenuScreen") { MainMenuView(navController, showBottomBar = true) }
+        composable("badgesScreen") { BadgesView(navController, showBottomBar = false)  }
+        composable("articleScreen") { ArticleView(navController, showBottomBar = false)}
+        composable("cameraScreen") { CameraView(navController, showBottomBar = false) }
+    }
+}
+
+
+@Composable
+fun NavigationBarComponent(navController: NavHostController, modifier: Modifier = Modifier) {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    NavigationBar(containerColor = Color(0xFFFFFFA1)){
+        NavigationBarItem(
+            icon = { Icon(Icons.Outlined.Home, contentDescription = "MainScreen", tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
+            selected = selectedItem == 0,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
+            onClick = {
+                selectedItem = 0
+                navController.navigate("MainMenuScreen")
+            }
+        )
+
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Search, contentDescription = "ArticleScreen",tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
+            selected = selectedItem == 1,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
+            onClick = {
+                selectedItem = 1
+                navController.navigate("ArticleScreen")
+            }
+        )
+        NavigationBarItem(
+            icon = { Icon(painter = painterResource(id = R.drawable.camera),modifier = Modifier.size(50.dp), contentDescription = "CameraScreen",
+                tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black)
+               },
+            selected = selectedItem == 2,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
+            onClick = {
+                selectedItem = 2
+                navController.navigate("CameraScreen")
+            }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Star, contentDescription = "BadgesScreen",tint = if (selectedItem == 2) Color(0xFF4CAF50) else Color.Black) },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4CAF50),
+                unselectedIconColor = Color.Black
+            ),
+            selected = selectedItem == 4,
+            onClick = {
+                selectedItem = 4
+                navController.navigate("BadgesScreen")
+            }
+        )
     }
 }

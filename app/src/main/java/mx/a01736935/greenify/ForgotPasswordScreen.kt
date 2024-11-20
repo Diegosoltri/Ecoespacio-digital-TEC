@@ -25,14 +25,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun ForgotPasswordView(navController: NavController) {
+fun ForgotPasswordView(navController: NavController, showBottomBar: Boolean = false) {
     var email by remember { mutableStateOf("") }
     Column (modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
         .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text(text = "Olvidaste tu Contraseña?", fontSize = 40.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+        Text(text = "Olvidaste tu Contraseña?", fontSize = 40.sp, color = Color.Black, fontWeight = FontWeight.Bold, lineHeight = 30.sp)
         Spacer(modifier = Modifier.height(25.dp))
         TextField(
             value = email,

@@ -1,6 +1,5 @@
 plugins {
-    id("com.android.application")
-    id("com.google.gms.google-services")
+    alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
@@ -39,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -52,22 +52,27 @@ android {
 }
 
 dependencies {
-
-
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.compose.material)
-    implementation(libs.googleid)
     implementation(libs.firebase.firestore.ktx)
-
+    implementation(libs.firebase.auth.ktx)
     androidTestImplementation(libs.androidx.navigation.testing)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
+    implementation(libs.qr.scanner)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
@@ -78,35 +83,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    implementation(libs.google.firebase.analytics)
-
-    //Coil
-    implementation(libs.coil.compose)
-
-//Navgation
-    implementation(libs.androidx.navigation.compose)
-//Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-   //Credential manager
-    implementation(libs.play.services.auth)
-
-    val credentialsManagerVersion = "1.5.0-alpha05"
-    implementation("androidx.credentials:credentials:$credentialsManagerVersion")
-    implementation("androidx.credentials:credentials-play-services-auth:$credentialsManagerVersion")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
-
-
-    //camara
-    implementation(libs.androidx.camera.core)
-    implementation(libs.androidx.camera.camera2)
-    implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.camera.view)
-    implementation(libs.androidx.camera.extensions)
-
-    implementation(libs.qr.scanner)
-
-
-}
+    }
