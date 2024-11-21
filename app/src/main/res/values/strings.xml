@@ -167,4 +167,9 @@
     <string name="waste23">Reduce el uso de servilletas de papel, utilizando servilletas de tela reutilizables.</string>
     <string name="waste24">Involúcrate en proyectos de reciclaje y reducción de residuos en tu comunidad.</string>
     <string name="waste25">Infórmate sobre las prácticas de reciclaje y desecho adecuado en tu ciudad.</string>
+    <string name="category1">Todos</string>
+    <string name="category2">Transporte</string>
+    <string name="category3">Energía</string>
+    <string name="category4">Consumo</string>
+    <string name="category5">Residuos</string>
 </resources>

@@ -6,5 +6,8 @@ import androidx.annotation.StringRes
 data class EcoChallenge(
     @DrawableRes val imageResId: Int,
     @StringRes val nameResId: Int,
-    @StringRes val descriptionResId: Int
+    @StringRes val descriptionResId: Int,
+    @StringRes val filterResId: Int,
+    val id: Int
+
 )

@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import mx.a01736935.greenify.MainActivity
 import java.io.File
@@ -36,7 +37,7 @@ import mx.a01736935.greenify.presentation.saveUserNameToFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfilePage() {
+fun ProfilePage(navController: NavController) {
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
     val userIdInstance = UserId()
@@ -205,8 +206,3 @@ fun shareScreenshot(context: Context) {
     context.startActivity(Intent.createChooser(shareIntent, "Compartir imagen"))
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ProfilePagePreview() {
-    ProfilePage()
-}

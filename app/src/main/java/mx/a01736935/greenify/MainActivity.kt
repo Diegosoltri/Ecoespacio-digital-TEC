@@ -1,5 +1,6 @@
 package mx.a01736935.greenify
 
+import android.R
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -8,6 +9,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
@@ -32,7 +35,11 @@ enum class Screen {
     Home,
     ProfilePage,
     InitialView,
-    explication
+    explication,
+    ArticleScreen,
+    BadgesScreen,
+    CameraScreen,
+    ForgotPasswordScreen
 }
 
 class MainActivity : ComponentActivity() {
@@ -41,6 +48,18 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val windowInsetsController = WindowInsetsControllerCompat(window, window.decorView)
+
+        // Configura la apariencia de las barras del sistema para tener iconos claros y fondo oscuro
+        windowInsetsController.isAppearanceLightStatusBars = true // Barra de estado con íconos claros
+        windowInsetsController.isAppearanceLightNavigationBars = true // Barra de navegación con íconos claros
+
+        // Configura el color de la barra de estado y la barra de navegación
+        window.statusBarColor = getColor(android.R.color.transparent) // O cualquier color que desees
+        window.navigationBarColor = getColor(android.R.color.transparent)
+
+        // Configura el color de la barra de estado
+        window.statusBarColor = getColor(R.color.transparent)
         enableEdgeToEdge()
         auth = Firebase.auth
 
@@ -117,25 +136,26 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(Screen.Home.name) {
-                        MainMenuView(
-                            onSignOutClick = {
-                                auth.signOut()
-                                scope.launch {
-                                    credentialManager.clearCredentialState(
-                                        ClearCredentialStateRequest()
-                                    )
-                                }
-                                navController.popBackStack()
-                                navController.navigate(Screen.Login.name)
-                            },
-                            onProfileClick = {
-                                navController.navigate(Screen.ProfilePage.name)
-                            }
-                        )
+                        MainMenuView(navController = navController)
                     }
 
                     composable(Screen.ProfilePage.name) {
-                        ProfilePage()
+                        ProfilePage(navController = navController)
+                    }
+                    composable(Screen.BadgesScreen.name) {
+                        BadgesView(navController = navController)
+                    }
+
+                    composable(Screen.ArticleScreen.name) {
+                        ArticleView(navController = navController)
+                    }
+
+                   /* composable(Screen.CameraScreen.name) {
+                        CameraView(navController = navController)
+                    }*/
+
+                    composable(Screen.ForgotPasswordScreen.name) {
+                        ForgotPasswordView(navController = navController)
                     }
                 }
             }
