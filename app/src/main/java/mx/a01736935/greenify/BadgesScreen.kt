@@ -113,7 +113,7 @@ fun BadgesList(badges: List<logros>, modifier: Modifier = Modifier) {
         // Mostrar la lista de logros si no está vacía
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             items(badges) { badge ->
                 BadgeRow(badge)
@@ -121,7 +121,6 @@ fun BadgesList(badges: List<logros>, modifier: Modifier = Modifier) {
         }
     }
 }
-
 
 object BadgeRepository {
     @SuppressLint("StaticFieldLeak")
@@ -260,8 +259,6 @@ object BadgeRepository {
     }
 }
 
-
-
 fun getImageResId(imageName: String): Int {
     return when (imageName) {
         "camina" -> R.drawable.camina
@@ -282,7 +279,7 @@ fun getImageResId(imageName: String): Int {
 
 @Composable
 fun BadgeRow(badge: logros) {
-    val progress = badge.estrellasActuales.toFloat()
+    val estrellas = badge.estrellasActuales.toFloat()
     val maxProgress = badge.estrellasRequeridas.toFloat()
 
     Row(
@@ -311,12 +308,12 @@ fun BadgeRow(badge: logros) {
                 fontSize = 14.sp
             )
             LinearProgressIndicator(
-                progress = { progress / maxProgress },
+                progress = { estrellas / maxProgress },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(50.dp)
                     .height(8.dp),
-                color = Color.Gray,
-                trackColor = Color.Green
+                color = Color.Green,
+                trackColor = Color.Gray
             )
         }
     }
