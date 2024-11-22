@@ -34,7 +34,7 @@ import com.journeyapps.barcodescanner.ScanOptions
 import mx.a01736935.greenify.model.BadgeItem
 
 @Composable
-fun CameraView( badgeList: List<BadgeItem>) {
+fun CameraView( navController: NavController,badgeList: List<BadgeItem>) {
     val context = LocalContext.current
     val scannedValue = remember { mutableStateOf("") }
     val showConfirmationIcon = remember { mutableStateOf(false) }

@@ -40,9 +40,7 @@ fun BottomButtonBar(
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xA0FF0000)) // Fondo verde semi-transparente
-            .padding(bottom = 0.dp) // Ajustar padding si es necesario
-            .systemBarsPadding() // Asegura que no se superponga a la barra de estado
+
     ) {
         buttons.forEach { (button, iconRes) ->
             NavigationBarItem(
