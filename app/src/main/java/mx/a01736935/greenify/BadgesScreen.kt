@@ -167,22 +167,36 @@ object BadgeRepository {
                         "estrellasActuales" to 0,
                         "estrellasPorActividad" to 10,
                         "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
+                        "imagenNombre" to "energia",
+                        "titulo" to "Aprende a cuidar la energía"
                     ),
                     mapOf(
                         "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 15,
-                        "estrellasRequeridas" to 150,
-                        "imagenNombre" to "bicicleta",
-                        "titulo" to "Desplázate de forma sostenible"
+                        "estrellasPorActividad" to 5,
+                        "estrellasRequeridas" to 50,
+                        "imagenNombre" to "residuos",
+                        "titulo" to "Aprende a separar tus residuos"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "reciclado",
+                        "titulo" to "Asiste al centro de reciclado"
                     ),
                     mapOf(
                         "estrellasActuales" to 0,
                         "estrellasPorActividad" to 20,
                         "estrellasRequeridas" to 200,
-                        "imagenNombre" to "otraimagen",
-                        "titulo" to "Reduce tus residuos"
+                        "imagenNombre" to "camina",
+                        "titulo" to "Camina 3 KM"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "carro",
+                        "titulo" to "Comparte automóvil con un compañero"
                     ),
                     mapOf(
                         "estrellasActuales" to 0,
@@ -190,48 +204,48 @@ object BadgeRepository {
                         "estrellasRequeridas" to 100,
                         "imagenNombre" to "graycircle",
                         "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 5,
+                        "estrellasRequeridas" to 50,
+                        "imagenNombre" to "flora",
+                        "titulo" to "Conoce la flora del vivero TEC"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 5,
+                        "estrellasRequeridas" to 50,
+                        "imagenNombre" to "regar",
+                        "titulo" to "Riega el vivero TEC"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 5,
+                        "estrellasRequeridas" to 50,
+                        "imagenNombre" to "thermo",
+                        "titulo" to "Trae tu propio termo"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 20,
+                        "estrellasRequeridas" to 200,
+                        "imagenNombre" to "bicicleta",
+                        "titulo" to "Usa la bicicleta para llegar al TEC"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 15,
+                        "estrellasRequeridas" to 150,
+                        "imagenNombre" to "composta",
+                        "titulo" to "Ve al taller de composta"
+                    ),
+                    mapOf(
                         "estrellasActuales" to 0,
                         "estrellasPorActividad" to 10,
                         "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
-                        "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 10,
-                        "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
-                        "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 10,
-                        "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
-                        "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 10,
-                        "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
-                        "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 10,
-                        "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
-                        "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 10,
-                        "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
-                    ),mapOf(
-                        "estrellasActuales" to 0,
-                        "estrellasPorActividad" to 10,
-                        "estrellasRequeridas" to 100,
-                        "imagenNombre" to "graycircle",
-                        "titulo" to "Inicia tu viaje ecológico"
+                        "imagenNombre" to "desechos",
+                        "titulo" to "Ve al taller sobre los desechos"
                     )
                 )
 
