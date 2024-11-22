@@ -2,6 +2,7 @@ package mx.a01736935.greenify
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -77,7 +78,7 @@ fun CreateAccountView(
                 .padding(bottom = 16.dp)
         )
 
-      // Correo
+        // Correo
         Text(text = "Correo", fontSize = 18.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -139,7 +140,8 @@ fun CreateAccountView(
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp).clickable {
+            navController.navigate("LoginScreen")})
 
         Spacer(modifier = Modifier.height(20.dp))
 
