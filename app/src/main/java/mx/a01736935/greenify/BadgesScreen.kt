@@ -2,6 +2,7 @@ package mx.a01736935.greenify
 
 import BottomButtonBar
 import android.annotation.SuppressLint
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import androidx.compose.foundation.Image
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 import mx.a01736935.greenify.model.logros
 
 
@@ -149,7 +151,101 @@ object BadgeRepository {
             emptyList()
         }
     }
+
+    suspend fun initializeLogrosForUser(userId: String) {
+        try {
+            val userLogrosRef = db.collection("users")
+                .document(userId)
+                .collection("logros")
+
+            val logrosSnapshot = userLogrosRef.get().await()
+
+            // Si la colección está vacía, inicializa con logros predeterminados
+            if (logrosSnapshot.isEmpty) {
+                val initialLogros = listOf(
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 15,
+                        "estrellasRequeridas" to 150,
+                        "imagenNombre" to "bicicleta",
+                        "titulo" to "Desplázate de forma sostenible"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 20,
+                        "estrellasRequeridas" to 200,
+                        "imagenNombre" to "otraimagen",
+                        "titulo" to "Reduce tus residuos"
+                    ),
+                    mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    ),mapOf(
+                        "estrellasActuales" to 0,
+                        "estrellasPorActividad" to 10,
+                        "estrellasRequeridas" to 100,
+                        "imagenNombre" to "graycircle",
+                        "titulo" to "Inicia tu viaje ecológico"
+                    )
+                )
+
+                // Agregar logros iniciales a la colección
+                initialLogros.forEach { logro ->
+                    userLogrosRef.add(logro)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("BadgeRepository", "Error al inicializar logros: ${e.message}")
+        }
+    }
 }
+
 
 
 fun getImageResId(imageName: String): Int {
@@ -221,7 +317,15 @@ fun BadgesView(navController: NavHostController) {
     var badges by remember { mutableStateOf<List<logros>>(emptyList()) }
     var filteredBadges by remember { mutableStateOf<List<logros>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    val scope = rememberCoroutineScope()
 
+    LaunchedEffect(Unit){
+        scope.launch {
+            if (userId != null) {
+                BadgeRepository.initializeLogrosForUser(userId)
+            }
+        }
+    }
     // Cargar las insignias desde Firebase al inicio
     LaunchedEffect(Unit) {
         isLoading = true
