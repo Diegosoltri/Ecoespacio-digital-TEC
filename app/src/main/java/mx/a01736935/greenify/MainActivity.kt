@@ -1,6 +1,5 @@
 package mx.a01736935.greenify
 
-import android.R
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -10,16 +9,10 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
-import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.navigation.compose.NavHost
@@ -34,7 +27,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import mx.a01736935.greenify.carruser.SetupTransparentSystemUi
-import mx.a01736935.greenify.model.BadgeItem
 import mx.a01736935.greenify.ui.theme.GreenifyTheme
 import mx.a01736935.greenify.viewmodel.AuthViewModel
 import mx.a01736935.greenify.viewmodel.ProfilePage
@@ -169,10 +161,9 @@ class MainActivity : ComponentActivity() {
                         ArticleView(navController = navController)
                     }
 
-                   /* composable(Screen.CameraScreen.name) {
-
-                        CameraView(navController = navController, badgeList = )
-                    }*/
+                    composable(Screen.CameraScreen.name) {
+                        CameraView(navController = navController)
+                    }
 
                     composable(Screen.ForgotPasswordScreen.name) {
                         ForgotPasswordView(navController = navController)
@@ -181,7 +172,5 @@ class MainActivity : ComponentActivity() {
 
 
             }
-            }
-        }
-
-
+    }
+}

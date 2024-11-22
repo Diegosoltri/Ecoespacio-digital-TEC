@@ -1,5 +1,6 @@
 package mx.a01736935.greenify
 
+import BottomButtonBar
 import android.content.Intent
 import android.net.Uri
 import android.net.Uri.parse
@@ -48,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import mx.a01736935.greenify.model.ArticleItem
 import mx.a01736935.greenify.model.ArticleConsumption
 import mx.a01736935.greenify.model.ArticleEnergy
@@ -90,10 +92,10 @@ fun ArticleButton(article: String, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun ArticleView(navController: NavController) {
+fun ArticleView(navController: NavHostController) {
     val context = LocalContext.current
     val guideUrl = "https://drive.google.com/file/d/1dta8BKrz4zCz3BS4PdqqO-pQKGuqwyWl/view?usp=sharing"
-
+    var selectedButton by remember { mutableStateOf("Article") }
     // Estado para la categoría seleccionada y el consejo actual
     var selectedCategory by remember { mutableStateOf("Todos") }
     var currentTip by remember { mutableStateOf("Selecciona una categoría y presiona 'Nuevo Consejo'") }
@@ -118,70 +120,81 @@ fun ArticleView(navController: NavController) {
             }
         }
     }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Título
-        Text(
-            text = "GREENIFY",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Green,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = "Guía de cuidado del Medio Ambiente",
-            fontSize = 16.sp,
-            color = Color.Gray,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Botón para abrir la guía completa
-        TextButton(onClick = {
-            val intent = Intent(Intent.ACTION_VIEW, parse(guideUrl))
-            context.startActivity(intent)
-        }) {
-            Text(text = "Guía Completa", color = Color.Blue)
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Carrusel de categorías
-        ArticleCarousel(
-            selectedArticle = selectedCategory,
-            onArticleSelected = { selectedCategory = it }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Texto del consejo actual
-        Text(
-            text = currentTip,
-            fontSize = 18.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Botón para generar un nuevo consejo
-        Button(
-            onClick = {
-                currentTip = getRandomTip(selectedCategory)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFB8F168),
-                contentColor = Color.Black
+    Scaffold(
+        bottomBar = {
+            BottomButtonBar(
+                selectedButton = selectedButton,
+                onButtonSelected = { selectedButton = it },
+                navController = navController // Pasar el NavController aquí
             )
-        ) {
-            Text(text = "Nuevo Consejo")
+        },
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .background(Color.White),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Título
+                Text(
+                    text = "GREENIFY",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Green,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Guía de cuidado del Medio Ambiente",
+                    fontSize = 16.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Botón para abrir la guía completa
+                TextButton(onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, parse(guideUrl))
+                    context.startActivity(intent)
+                }) {
+                    Text(text = "Guía Completa", color = Color.Blue)
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Carrusel de categorías
+                ArticleCarousel(
+                    selectedArticle = selectedCategory,
+                    onArticleSelected = { selectedCategory = it }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Texto del consejo actual
+                Text(
+                    text = currentTip,
+                    fontSize = 18.sp,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Botón para generar un nuevo consejo
+                Button(
+                    onClick = {
+                        currentTip = getRandomTip(selectedCategory)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFB8F168),
+                        contentColor = Color.Black
+                    )
+                ) {
+                    Text(text = "Nuevo Consejo")
+                }
+            }
         }
-    }
+    )
 }

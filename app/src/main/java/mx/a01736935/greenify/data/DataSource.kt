@@ -6,7 +6,7 @@ import mx.a01736935.greenify.model.ArticleEnergy
 import mx.a01736935.greenify.model.ArticleConsumption
 import mx.a01736935.greenify.model.ArticleWaste
 import mx.a01736935.greenify.model.ArticleItem
-import mx.a01736935.greenify.model.BadgeItem
+import mx.a01736935.greenify.model.logros
 import mx.a01736935.greenify.model.EcoChallenge
 
 class DataSource {
@@ -26,69 +26,69 @@ class DataSource {
         )
     }
 
-        fun loadBadges(): List<BadgeItem> {
+        fun loadBadges(): List<logros> {
             return listOf(
-                BadgeItem(
+                logros(
                     R.drawable.bicicleta,
                     R.string.badgeName1,
                     R.integer.progress1,
                     R.integer.maxProgress1
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.camina,
                     R.string.badgeName2,
                     R.integer.progress2,
                     R.integer.maxProgress2,
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.carro,
                     R.string.badgeName3,
                     R.integer.progress3,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.composta,
                     R.string.badgeName4,
                     R.integer.progress4,
                     R.integer.maxProgress4
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.reciclado,
                     R.string.badgeName5,
                     R.integer.progress5,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.desechos,
                     R.string.badgeName6,
                     R.integer.progress6,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.energia,
                     R.string.badgeName7,
                     R.integer.progress7,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.flora,
                     R.string.badgeName8,
                     R.integer.progress8,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.regar,
                     R.string.badgeName9,
                     R.integer.progress9,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.thermo,
                     R.string.badgeName10,
                     R.integer.progress10,
                     R.integer.maxProgress3
                 ),
-                BadgeItem(
+                logros(
                     R.drawable.residuos,
                     R.string.badgeName11,
                     R.integer.progress11,
