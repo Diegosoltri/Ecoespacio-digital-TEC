@@ -73,6 +73,8 @@ import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.FractionalThreshold
 import androidx.wear.compose.material.rememberSwipeableState
 import androidx.wear.compose.material.swipeable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mx.a01736935.greenify.authentification.AuthenticationManager
 
 @OptIn(ExperimentalWearMaterialApi::class)
@@ -90,6 +92,7 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLog
     val coroutineScope = rememberCoroutineScope()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
     val strongGreen = Color(0xFF00B300)
     val lightGreenCustom = Color(0xFFE0FFE0)
     val circle = painterResource(id = R.drawable.graycircle)
@@ -130,7 +133,29 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLog
             modifier = Modifier.fillMaxWidth(0.9f)
         )
 
-        Button(onClick = {}, shape = RoundedCornerShape(12.dp),
+        Button(onClick = {
+            if (email.isNotBlank() && password.isNotBlank()) {
+                authenticationManager.loginWithEmail(email, password)
+                    .onEach { response ->
+                        when (response) {
+                            is AuthenticationManager.AuthResponse.Success -> {
+                                // Si la autenticación es exitosa, navegar a la pantalla de inicio
+                                navController.navigate(Screen.Home.name) {
+                                    // Evita que el usuario regrese a la pantalla de login usando el botón de "atrás"
+                                    popUpTo(Screen.Login.name) { inclusive = true }
+                                }
+                            }
+                            is AuthenticationManager.AuthResponse.Error -> {
+                                // Mostrar mensaje de error
+                                errorMessage = response.message
+                            }
+                        }
+                    }
+                    .launchIn(coroutineScope)
+            } else {
+                errorMessage = "Por favor, ingrese todos los campos."
+            }
+        }, shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Green,  // Color de fondo del botón
                 contentColor = Color.White     // Color del texto del botón
