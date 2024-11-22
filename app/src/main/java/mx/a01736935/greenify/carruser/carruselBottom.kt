@@ -30,7 +30,7 @@ fun BottomButtonBar(
 ) {
     val buttons = listOf(
         Pair("Home", R.drawable.ic_home),
-        Pair("Tip",  R.drawable.ic_article),
+        Pair("Article",  R.drawable.ic_article),
         Pair("Camera",  R.drawable.ic_camera),
         Pair("Profile",  R.drawable.ic_profile),
         Pair("Badge",  R.drawable.star)
