@@ -150,9 +150,9 @@ class MainActivity : ComponentActivity() {
                         ArticleView(navController = navController)
                     }
 
-                   /* composable(Screen.CameraScreen.name) {
+                    composable(Screen.CameraScreen.name) {
                         CameraView(navController = navController)
-                    }*/
+                    }
 
                     composable(Screen.ForgotPasswordScreen.name) {
                         ForgotPasswordView(navController = navController)

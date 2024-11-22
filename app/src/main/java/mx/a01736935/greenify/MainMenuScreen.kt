@@ -59,10 +59,6 @@ import androidx.navigation.NavHostController
 import mx.a01736935.greenify.model.EcoChallenge
 import mx.a01736935.greenify.data.DataSource
 
-
-
-
-
 @Composable
 fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) -> Unit) {
     val categories = listOf(
@@ -87,24 +83,6 @@ fun CategoriesCarousel(selectedCategory: String, onCategorySelected: (String) ->
         }
     }
 }
-
-/*
-@Composable
-fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) Color(0xFFFFF176) else Color(0xFFEFEFEF),
-            contentColor = Color.Black
-        ),
-        modifier = Modifier
-            .height(40.dp)
-            .padding(horizontal = 4.dp)
-    ) {
-        Text(text = category, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-    }
-}
-*/
 
 @Composable
 fun CategoryButton(category: String, isSelected: Boolean, onClick: () -> Unit) {
@@ -259,6 +237,7 @@ fun EcoChallengeGrid(challenges: List<EcoChallenge>, modifier: Modifier = Modifi
 @Composable
 fun MainMenuView(navController: NavHostController) {
     var selectedCategory by remember { mutableStateOf("Reciclaje") } // Botón seleccionado
+    var selectedButton by remember { mutableStateOf("Home") }
     val allChallenges = remember { DataSource().loadEcoChallenges() }
     val filteredChallenges = if (selectedCategory == "Todos") {
         allChallenges // Mostrar todos si la categoría seleccionada es "Todos"
@@ -270,8 +249,8 @@ fun MainMenuView(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomButtonBar(
-                selectedButton = selectedCategory,
-                onButtonSelected = { selectedCategory = it },
+                selectedButton = selectedButton,
+                onButtonSelected = { selectedButton = it },
                 navController = navController // Pasar el NavController aquí
             )
         },

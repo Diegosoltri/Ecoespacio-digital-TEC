@@ -30,17 +30,16 @@ fun BottomButtonBar(
 ) {
     val buttons = listOf(
         Pair("Home", R.drawable.ic_home),
-        Pair("Tip",  R.drawable.ic_home),
-        Pair("Camera",  R.drawable.ic_home),
-        Pair("Profile",  R.drawable.ic_home),
-        Pair("MC",  R.drawable.ic_home)
+        Pair("Tip",  R.drawable.ic_article),
+        Pair("Camera",  R.drawable.ic_camera),
+        Pair("Profile",  R.drawable.ic_profile),
+        Pair("Badge",  R.drawable.star)
     )
-
 
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xA0FF0000)) // Fondo verde semi-transparente
+            .background(Color(0xA04CFF00)) // Fondo verde semi-transparente
             .padding(bottom = 0.dp) // Ajustar padding si es necesario
             .systemBarsPadding() // Asegura que no se superponga a la barra de estado
     ) {
@@ -73,8 +72,9 @@ fun BottomButtonBar(
 fun onNavigate(button: String, navController: NavHostController) {
     when (button) {
         "Home" -> navController.navigate(Screen.Home.name)
-        "Tip" -> navController.navigate(Screen.BadgesScreen.name)
-        "Camera" -> navController.navigate(Screen.BadgesScreen.name)
+        "Tip" -> navController.navigate(Screen.ArticleScreen.name)
+        "Camera" -> navController.navigate(Screen.CameraScreen.name)
+        "Badge" -> navController.navigate(Screen.BadgesScreen.name)
         "Profile" -> navController.navigate(Screen.ProfilePage.name)
     }
 }
