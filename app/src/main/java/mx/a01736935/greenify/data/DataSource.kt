@@ -26,6 +26,7 @@ class DataSource {
         )
     }
 
+    /*
         fun loadBadges(): List<logros> {
             return listOf(
                 logros(
@@ -96,7 +97,7 @@ class DataSource {
                 )
             )
         }
-
+     */
 
     fun loadArticleTransport(): List<ArticleTransport> {
         return listOf(
