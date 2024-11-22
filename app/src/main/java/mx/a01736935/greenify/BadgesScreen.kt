@@ -21,10 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-import mx.a01736935.greenify.model.EcoChallenge
+import mx.a01736935.greenify.model.logros
 
 
 @Composable
@@ -90,9 +91,8 @@ fun BadgesButton(badge: String, isSelected: Boolean, onClick: () -> Unit) {
     }
 }
 
-
 @Composable
-fun BadgesList(badges: List<EcoChallenge>, modifier: Modifier = Modifier) {
+fun BadgesList(badges: List<logros>, modifier: Modifier = Modifier) {
     if (badges.isEmpty()) {
         // Mostrar un mensaje cuando no hay logros en la categoría seleccionada
         Box(
@@ -134,7 +134,7 @@ object BadgeRepository {
                 .await()
                 .documents
                 .mapNotNull { document ->
-                    val badge = document.toObject(Logros::class.java)
+                    val badge = document.toObject(logros::class.java)
                     badge?.copy(
                         estrellasActuales = document.getLong("estrellasActuales")?.toInt() ?: 0,
                         estrellasPorActividad = document.getLong("estrellasPorActividad")?.toInt() ?: 0,
@@ -277,7 +277,7 @@ fun getImageResId(imageName: String): Int {
 
 
 @Composable
-fun BadgeRow(badge: EcoChallenge) {
+fun BadgeRow(badge: logros) {
     val estrellas = badge.estrellasActuales.toFloat()
     val maxProgress = badge.estrellasRequeridas.toFloat()
 
@@ -324,8 +324,8 @@ fun BadgesView(navController: NavHostController) {
     val userId = FirebaseAuth.getInstance().currentUser?.uid // Sustituye con el ID del usuario autenticado
     var selectedButton by remember { mutableStateOf("Badge") }
     var selectedBadge by remember { mutableStateOf("Todos") }
-    var badges by remember { mutableStateOf<List<EcoChallenge>>(emptyList()) }
-    var filteredBadges by remember { mutableStateOf<List<EcoChallenge>>(emptyList()) }
+    var badges by remember { mutableStateOf<List<logros>>(emptyList()) }
+    var filteredBadges by remember { mutableStateOf<List<logros>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     val scope = rememberCoroutineScope()
 
