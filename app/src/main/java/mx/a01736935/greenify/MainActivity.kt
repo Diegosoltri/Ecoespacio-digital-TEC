@@ -106,6 +106,7 @@ class MainActivity : ComponentActivity() {
 
                     composable(Screen.Login.name) {
                         CreateAccountView(
+                            navController= navController,
                             onRegisterClick = { email, password ->
                                 authViewModel.registerUser(email, password)
                             },
