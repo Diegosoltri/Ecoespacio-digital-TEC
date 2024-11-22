@@ -25,7 +25,7 @@ class DataSource {
             EcoChallenge(R.drawable.imgresiduos, R.string.name11, R.string.desc11, R.string.category5, 11),
         )
     }
-
+/*
         fun loadBadges(): List<logros> {
             return listOf(
                 logros(
@@ -96,7 +96,7 @@ class DataSource {
                 )
             )
         }
-
+ */
 
     fun loadArticleTransport(): List<ArticleTransport> {
         return listOf(
