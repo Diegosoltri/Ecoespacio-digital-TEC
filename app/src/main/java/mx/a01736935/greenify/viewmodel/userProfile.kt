@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -19,17 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import mx.a01736935.greenify.MainActivity
 import java.io.File
 import java.io.FileOutputStream
 import mx.a01736935.greenify.presentation.UserId
 import mx.a01736935.greenify.presentation.getPhraseFromFirestore
+import mx.a01736935.greenify.presentation.getStarsFromFirestore
 import mx.a01736935.greenify.presentation.getUserNameFromFirestore
 import mx.a01736935.greenify.presentation.savePhraseToFirestore
 import mx.a01736935.greenify.presentation.saveUserNameToFirestore
@@ -42,6 +48,7 @@ fun ProfilePage(navController: NavController) {
     var showDialog by remember { mutableStateOf(false) }
     val userIdInstance = UserId()
     val userId = userIdInstance.getUserId()
+    var estrellasActuales by remember { mutableIntStateOf(0) }
 
     var phrase by remember { mutableStateOf("Frase por defecto...") }
     var userName by remember { mutableStateOf("Cargando...") }
@@ -49,11 +56,20 @@ fun ProfilePage(navController: NavController) {
     // Cargar datos de Firestore
     LaunchedEffect(userId) {
         if (userId != null) {
+            // Obtener el nombre del usuario desde Firestore
             getUserNameFromFirestore(userId) { name ->
                 userName = name ?: "Usuario sin nombre"
             }
+
+            // Obtener la frase del usuario desde Firestore
             getPhraseFromFirestore(userId) { storedPhrase ->
                 phrase = storedPhrase ?: "Frase por defecto..."
+            }
+
+            // Obtener las estrellas actuales desde Firestore
+            val documentId = "Usa la bicicleta para llegar al TEC" // ID del documento en Firestore
+            getStarsFromFirestore(documentId) { estrellas ->
+                estrellasActuales = estrellas ?: 0 // Si no se encuentra, mostrar 0
             }
         }
     }
@@ -99,7 +115,9 @@ fun ProfilePage(navController: NavController) {
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White) ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,10 +142,10 @@ fun ProfilePage(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = rememberImagePainter("https://example.com/profile_picture.jpg"),
+                painter = rememberAsyncImagePainter("https://static.vecteezy.com/system/resources/previews/036/053/527/non_2x/ai-generated-cartoon-illustration-of-a-tree-free-png.png"),
                 contentDescription = "Foto de perfil",
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(280.dp)
                     .clip(CircleShape)
             )
 
@@ -142,11 +160,21 @@ fun ProfilePage(navController: NavController) {
                     modifier = Modifier.size(24.dp),
                     tint = Color.Yellow
                 )
-                Text(text = "120", fontSize = 18.sp, color = Color.Black)
+                Text(text = estrellasActuales.toString(), fontSize = 18.sp, color = Color.Black)
             }
 
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = phrase, fontSize = 20.sp, color = Color.Gray)
+            Text(
+                text = "\"$phrase\"",
+                fontSize = 20.sp,
+                color = Color.Black,  // Asegúrate de que sea color negro
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold, // Agregar negrita
+                    lineHeight = 28.sp,  // Ajuste de altura de línea
+                    fontStyle = FontStyle.Italic  // Texto en cursiva
+
+                )
+            )
 
             // Botones debajo de la frase
             Spacer(modifier = Modifier.height(32.dp)) // Espaciado entre la frase y los botones
@@ -157,26 +185,31 @@ fun ProfilePage(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceEvenly // Espaciado uniforme entre botones
             ) {
                 Button(
-                    onClick = {
-                        // Acción del primer botón
+                    onClick = { val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/file/d/1dta8BKrz4zCz3BS4PdqqO-pQKGuqwyWl/view?usp=sharing"))
+                        context.startActivity(intent)
+
                     },
-                    modifier = Modifier.weight(1f), // Ambos botones tendrán el mismo ancho
+                    modifier = Modifier
+                        .weight(1f), // Ambos botones tendrán el mismo ancho
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                 ) {
                     Text(
-                        "Conoce sobre la guía ciudadana...",
-                        maxLines = 1 // Limitar el texto a una sola línea
+                        "¿Qué es la guía ciudadana?",
+                        maxLines = 2 // Limitar el texto a una sola línea
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp)) // Separación fija entre los botones
                 Button(
                     onClick = {
-                        // Acción del segundo botón
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/EcoEspacioDigital?mibextid=ZbWKwL"))
+                        context.startActivity(intent)
                     },
-                    modifier = Modifier.weight(1f), // Ambos botones tendrán el mismo ancho
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                 ) {
                     Text(
                         "¿Qué es EcoEspacio?",
-                        maxLines = 1 // Limitar el texto a una sola línea
+                        maxLines = 2 // Limitar el texto a una sola línea
                     )
                 }
             }

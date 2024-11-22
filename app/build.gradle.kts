@@ -109,4 +109,7 @@ dependencies {
     implementation(libs.qr.scanner)
 
 
+    implementation(libs.accompanist.systemuicontroller)
+
+
 }

@@ -2,4 +2,8 @@
 <resources>
 
     <style name="Theme.Greenify" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.BarColors" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:navigationBarColor">@color/purple_700</item>
+    </style>
 </resources>

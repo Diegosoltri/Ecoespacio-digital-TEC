@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mx.a01736935.greenify.authentification.AuthenticationManager
@@ -39,7 +41,9 @@ import mx.a01736935.greenify.authentification.AuthenticationManager
 @Composable
 fun CreateAccountView(
     onRegisterClick: (email: String, password: String) -> Unit,
-    onGoogleSignInClick: () -> Unit // Agregar un callback para el botón de Google
+    onGoogleSignInClick: () -> Unit ,// Agregar un callback para el botón de Google,
+    navController: NavController
+
 ) {
     val logoGreenify = painterResource(id = R.drawable.greenify)
     val logoGoogle = painterResource(id = R.drawable.google)
@@ -54,6 +58,7 @@ fun CreateAccountView(
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -68,11 +73,11 @@ fun CreateAccountView(
             contentDescription = "Greenify",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .height(50.dp)
+                .height(150.dp) // Imagen más grande
                 .padding(bottom = 16.dp)
         )
 
-     /*   // Correo
+      // Correo
         Text(text = "Correo", fontSize = 18.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -97,16 +102,37 @@ fun CreateAccountView(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = { authenticationManager.loginWithEmail(email, password)
-            .onEach { response ->
-                if (response is AuthenticationManager.AuthResponse.Success){
-
-                }
+        Button(onClick = {
+            // Llamada para crear la cuenta
+            if (email.isNotBlank() && password.isNotBlank()) {
+                authenticationManager.createAccountWithEmail(email, password)
+                    .onEach { response ->
+                        when (response) {
+                            is AuthenticationManager.AuthResponse.Success -> {
+                                // Si la autenticación es exitosa, navegar a la pantalla de inicio
+                                navController.navigate(Screen.Home.name) {
+                                    // Evita que el usuario regrese a la pantalla de login usando el botón de "atrás"
+                                    popUpTo(Screen.Login.name) { inclusive = true }
+                                }
+                            }
+                            is AuthenticationManager.AuthResponse.Error -> {
+                                // Mostrar mensaje de error
+                                errorMessage = response.message
+                            }
+                        }
+                    }
+                    .launchIn(coroutineScope)
+            } else {
+                errorMessage = "Por favor, ingrese todos los campos."
             }
-            .launchIn(coroutineScope)
-                         }, modifier = Modifier.fillMaxWidth()) {
-            Text("Registrarse")
+        }, modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
+
+
+        ){
+            Text("Crear cuenta")
         }
+
 
 
 
@@ -119,12 +145,13 @@ fun CreateAccountView(
 
         Text(text = "O inicia sesión con redes sociales", fontSize = 14.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(10.dp))
-*/        // Botón para iniciar sesión con Google
+        // Botón para iniciar sesión con Google
         Button(
             onClick = { onGoogleSignInClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
 
         ) {
             Image(
@@ -139,15 +166,3 @@ fun CreateAccountView(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCreateAccountView() {
-    CreateAccountView(
-        onRegisterClick = { email, password ->
-            // Acción de prueba para registro
-        },
-        onGoogleSignInClick = {
-            // Acción de prueba para inicio de sesión con Google
-        }
-    )
-}
