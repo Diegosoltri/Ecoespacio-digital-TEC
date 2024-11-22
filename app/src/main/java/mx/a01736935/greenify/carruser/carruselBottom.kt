@@ -72,7 +72,7 @@ fun BottomButtonBar(
 fun onNavigate(button: String, navController: NavHostController) {
     when (button) {
         "Home" -> navController.navigate(Screen.Home.name)
-        "Tip" -> navController.navigate(Screen.ArticleScreen.name)
+        "Article" -> navController.navigate(Screen.ArticleScreen.name)
         "Camera" -> navController.navigate(Screen.CameraScreen.name)
         "Badge" -> navController.navigate(Screen.BadgesScreen.name)
         "Profile" -> navController.navigate(Screen.ProfilePage.name)
