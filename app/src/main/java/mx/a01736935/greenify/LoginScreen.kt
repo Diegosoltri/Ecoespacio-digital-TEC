@@ -79,8 +79,8 @@ import mx.a01736935.greenify.authentification.AuthenticationManager
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLoginSuccess: () -> Unit,
-    //onGoogleSignInClick: () -> Unit
+fun LoginView(navController: NavController, modifier: Modifier = Modifier,
+              onGoogleSignInClick: () -> Unit,
               showBottomBar: Boolean = false) {
     val swipeableState = rememberSwipeableState(0)
     val anchors = mapOf(0f to 0, 150f to 1)
@@ -191,7 +191,27 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier, onLog
         Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
         ) { IconButton(onClick = {
-            //onGoogleSignInClick()
+            if (email.isNotBlank() && password.isNotBlank()) {
+                authenticationManager.signInWithGoogle()
+                    .onEach { response ->
+                        when (response) {
+                            is AuthenticationManager.AuthResponse.Success -> {
+                                // Si la autenticación es exitosa, navegar a la pantalla de inicio
+                                navController.navigate(Screen.Home.name) {
+                                    // Evita que el usuario regrese a la pantalla de login usando el botón de "atrás"
+                                    popUpTo(Screen.Login.name) { inclusive = true }
+                                }
+                            }
+                            is AuthenticationManager.AuthResponse.Error -> {
+                                // Mostrar mensaje de error
+                                errorMessage = response.message
+                            }
+                        }
+                    }
+                    .launchIn(coroutineScope)
+            } else {
+                errorMessage = "Por favor, ingrese todos los campos."
+            }
         }
         ) {
             Image(painter = painterResource(R.drawable.google), contentDescription = "Login with Google",

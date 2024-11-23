@@ -65,7 +65,7 @@ class AuthenticationManager(val context: Context) {
         }
     }
 
-    suspend fun signInWithGoogle(): Flow<AuthResponse> = callbackFlow {
+    fun signInWithGoogle(): Flow<AuthResponse> = callbackFlow {
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
             .setServerClientId(context.getString(R.string.WEB_CLIENT))

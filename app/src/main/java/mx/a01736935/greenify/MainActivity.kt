@@ -34,6 +34,7 @@ import mx.a01736935.greenify.viewmodel.ProfilePage
 const val WEB_CLIENT = "390208176910-0sage5goptts1hf64k1lsdckpdh00cmn.apps.googleusercontent.com"
 
 enum class Screen {
+    Create,
     Login,
     Home,
     ProfilePage,
@@ -95,8 +96,54 @@ class MainActivity : ComponentActivity() {
                         Initio(navController = navController)
                     }
 
-
                     composable(Screen.Login.name) {
+                        LoginView(
+                            navController= navController,
+                            onGoogleSignInClick = {
+                                val googleIdOption = GetGoogleIdOption.Builder()
+                                    .setFilterByAuthorizedAccounts(false)
+                                    .setServerClientId(WEB_CLIENT)
+                                    .build()
+
+                                val request = GetCredentialRequest.Builder()
+                                    .addCredentialOption(googleIdOption)
+                                    .build()
+
+                                scope.launch {
+                                    try {
+                                        val result = credentialManager.getCredential(
+                                            context = context,
+                                            request = request
+                                        )
+                                        val credential = result.credential
+                                        val googleIdTokenCredential = GoogleIdTokenCredential
+                                            .createFrom(credential.data)
+                                        val googleIdToken = googleIdTokenCredential.idToken
+
+                                        val firebaseCredential =
+                                            GoogleAuthProvider.getCredential(googleIdToken, null)
+
+                                        auth.signInWithCredential(firebaseCredential)
+                                            .addOnCompleteListener { task ->
+                                                if (task.isSuccessful) {
+                                                    navController.popBackStack()
+                                                    navController.navigate(Screen.Home.name)
+                                                }
+                                            }
+                                    } catch (e: Exception) {
+                                        Toast.makeText(
+                                            context,
+                                            "Error: ${e.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }
+                        )
+                    }
+
+                    composable(Screen.Create.name) {
                         CreateAccountView(
                             navController= navController,
                             onRegisterClick = { email, password ->
