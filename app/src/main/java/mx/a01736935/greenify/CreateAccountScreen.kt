@@ -134,14 +134,12 @@ fun CreateAccountView(
             Text("Crear cuenta")
         }
 
-
-
-
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray)
-        Spacer(modifier = Modifier.height(8.dp).clickable {
+        Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray,
+            modifier = Modifier.clickable {
             navController.navigate("LoginScreen")})
+        Spacer(modifier = Modifier.height(8.dp))
 
         Spacer(modifier = Modifier.height(20.dp))
 
