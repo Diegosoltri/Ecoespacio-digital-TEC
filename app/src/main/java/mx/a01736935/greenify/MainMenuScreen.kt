@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import coil.compose.rememberImagePainter
 
 import mx.a01736935.greenify.model.EcoChallenge
 import mx.a01736935.greenify.data.DataSource
@@ -133,7 +134,7 @@ fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier) {
         ) {
             // Imagen del reto
             Image(
-                painter = painterResource(id = challenge.imageResId),
+                painter = rememberImagePainter(challenge.imageResId),  // Usar Coil para carga eficiente
                 contentDescription = "Challenge Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -196,7 +197,7 @@ fun EcoChallengeCard(challenge: EcoChallenge, modifier: Modifier = Modifier) {
 
                     // Imagen del reto
                     Image(
-                        painter = painterResource(id = challenge.imageResId),
+                        painter = rememberImagePainter(challenge.imageResId),  // Usar Coil aquí también
                         contentDescription = "Imagen del reto",
                         modifier = Modifier
                             .fillMaxWidth()
@@ -252,12 +253,13 @@ fun MainMenuView(navController: NavHostController) {
     var selectedCategory by remember { mutableStateOf("Reciclaje") } // Botón seleccionado
     val allChallenges = remember { DataSource().loadEcoChallenges() }
     val filteredChallenges = if (selectedCategory == "Todos") {
-        allChallenges // Mostrar todos si la categoría seleccionada es "Todos"
+        allChallenges
     } else {
         allChallenges.filter { challenge ->
             stringResource(challenge.filterResId) == selectedCategory
         }
     }
+
     Scaffold(
         bottomBar = {
             BottomButtonBar(
