@@ -191,7 +191,6 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
         Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
         ) { IconButton(onClick = {
-            if (email.isNotBlank() && password.isNotBlank()) {
                 authenticationManager.signInWithGoogle()
                     .onEach { response ->
                         when (response) {
@@ -209,9 +208,6 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
                         }
                     }
                     .launchIn(coroutineScope)
-            } else {
-                errorMessage = "Por favor, ingrese todos los campos."
-            }
         }
         ) {
             Image(painter = painterResource(R.drawable.google), contentDescription = "Login with Google",
