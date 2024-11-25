@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -85,7 +86,9 @@ fun CreateAccountView(
             value = email,
             onValueChange = { email = it },
             placeholder = { Text("Ingrese su correo electrónico") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0x8034C759), shape = MaterialTheme.shapes.small)
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -97,7 +100,9 @@ fun CreateAccountView(
             value = password,
             onValueChange = { password = it },
             placeholder = { Text("Ingrese su contraseña") },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0x8034C759), shape = MaterialTheme.shapes.small),
             visualTransformation = PasswordVisualTransformation()
         )
 
@@ -138,7 +143,7 @@ fun CreateAccountView(
 
         Text(text = "Ya tienes una cuenta?", fontSize = 14.sp, color = Color.Gray,
             modifier = Modifier.clickable {
-            navController.navigate("LoginScreen")})
+            navController.navigate(Screen.Login.name)})
         Spacer(modifier = Modifier.height(8.dp))
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -160,7 +165,7 @@ fun CreateAccountView(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Iniciar sesión con Google", color = Color.Black)
+            Text(text = "Iniciar sesión con Google", color = Color.White)
         }
     }
 }

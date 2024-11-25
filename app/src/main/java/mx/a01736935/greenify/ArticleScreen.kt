@@ -106,6 +106,7 @@ fun ArticleView(navController: NavHostController) {
     val consumptionTips = DataSource().loadArticleConsumption()
     val wasteTips = DataSource().loadArticleWaste()
     val articleTips = DataSource().loadArticle()
+    val colorGreen = 0xFF4CAF50
 
     // Función para obtener un consejo aleatorio
     fun getRandomTip(category: String): String {
@@ -139,29 +140,24 @@ fun ArticleView(navController: NavHostController) {
                 // Título
                 Text(
                     text = "GREENIFY",
-                    fontSize = 24.sp,
+                    fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Green,
-                    textAlign = TextAlign.Center
+                    color = Color(colorGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
                 )
                 Text(
-                    text = "Guía de cuidado del Medio Ambiente",
-                    fontSize = 16.sp,
-                    color = Color.Gray,
-                    textAlign = TextAlign.Center
+                    text = "Conoce las acciones que puedes hacer para ayudar al planeta",
+                    fontSize = 17.sp,
+                    color = Color(colorGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
 
-                // Botón para abrir la guía completa
-                TextButton(onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, parse(guideUrl))
-                    context.startActivity(intent)
-                }) {
-                    Text(text = "Guía Completa", color = Color.Blue)
-                }
 
-                Spacer(modifier = Modifier.height(16.dp))
 
                 // Carrusel de categorías
                 ArticleCarousel(
@@ -169,12 +165,21 @@ fun ArticleView(navController: NavHostController) {
                     onArticleSelected = { selectedCategory = it }
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(70.dp))
+
+
+                Image(
+                    painter = painterResource(id = R.drawable.bombilla), // Reemplaza con tu recurso de imagen
+                    contentDescription = "Icono de idea",
+                    modifier = Modifier
+                        .size(100.dp) // Ajusta el tamaño de la imagen
+                        .padding(bottom = 16.dp) // Espaciado entre la imagen y el texto
+                )
 
                 // Texto del consejo actual
                 Text(
                     text = currentTip,
-                    fontSize = 18.sp,
+                    fontSize = 25.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 16.dp)

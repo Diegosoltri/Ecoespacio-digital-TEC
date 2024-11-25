@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -47,7 +52,7 @@ fun CameraView(navController: NavHostController) {
     val context = LocalContext.current
     val scannedValue = remember { mutableStateOf("") }
     val showConfirmationIcon = remember { mutableStateOf(false) }
-
+    val colorGreen = 0xFF4CAF50
     // Lanzador para ZXing
     val scannerLauncher = rememberLauncherForActivityResult(
         contract = ScanContract()
@@ -73,10 +78,40 @@ fun CameraView(navController: NavHostController) {
                     .fillMaxSize()
                     .padding(innerPadding)
                     .background(Color.White),
-                verticalArrangement = Arrangement.Center,
+
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(80.dp))
+
+
+                // Título
+                Text(
+                    text = "GREENIFY",
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(colorGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                )
+                Text(
+                    text = "Escanea aqui tus misiones para obtener tus recompensas",
+                    fontSize = 17.sp,
+                    color = Color(colorGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                )
+
+
+                Spacer(modifier = Modifier.height(70.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.camara_reflex_digital),
+                    contentDescription = "Camera icon",
+                    modifier = Modifier.size(170.dp) // Puedes ajustar el tamaño si lo necesitas
+                )
+
+                Spacer(modifier = Modifier.height(50.dp))
 
                 Button(
                     colors = ButtonDefaults.buttonColors(
@@ -97,8 +132,8 @@ fun CameraView(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = if (scannedValue.value.isEmpty()) "Scanned value will appear here" else "Scanned Value: ${scannedValue.value}",
-                    color = Color.Green,
+                    text = if (scannedValue.value.isEmpty()) "El valor escaneado aparecera aqui" else "Scanned Value: ${scannedValue.value}",
+                    color =Color(colorGreen),
                     fontSize = 16.sp
                 )
 

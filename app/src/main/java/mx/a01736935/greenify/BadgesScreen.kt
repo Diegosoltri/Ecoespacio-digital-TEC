@@ -30,31 +30,33 @@ import mx.a01736935.greenify.model.logros
 
 @Composable
 fun Header() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column {
+
+        Column (
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = "GREENIFY",
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF4CAF50) // Color verde
+                color = Color(0xFF4CAF50),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 16.dp)
             )
             Text(
-                text = "LISTO PARA TU INSIGNIA!",
-                fontSize = 16.sp,
-                color = Color(0xFF8BC34A) // Color verde claro
+                text = "Escanea aqui tus misiones para obtener tus recompensas",
+                fontSize = 17.sp,
+                color = Color(0xFF4CAF50),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.gadiro), // Reemplaza con tu recurso de imagen de perfil
-            contentDescription = "Perfil",
-            modifier = Modifier.size(48.dp)
-        )
+
+
     }
-}
+
 
 
 @Composable
@@ -369,7 +371,7 @@ fun BadgesView(navController: NavHostController) {
             ) {
                 Header()
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 // Carrusel de categorías
                 BadgesCarousel(

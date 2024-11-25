@@ -97,6 +97,7 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
     val lightGreenCustom = Color(0xFFE0FFE0)
     val circle = painterResource(id = R.drawable.graycircle)
     val grcircle = painterResource(id = R.drawable.greencircle)
+    val colorGreen = 0xFF4CAF50
 
     Box(modifier = modifier.fillMaxSize()
         .swipeable(state = swipeableState, anchors = anchors,
@@ -157,7 +158,7 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
             }
         }, shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Green,  // Color de fondo del botón
+                containerColor = Color(0xFF4CAF50),  // Color de fondo del botón
                 contentColor = Color.White     // Color del texto del botón
             ),
             modifier = Modifier.fillMaxWidth(0.4f).padding(top = 30.dp)
@@ -168,13 +169,8 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
             )
         }
 
-        Text(text = "¿Olvidaste tu contraseña?", fontSize = 18.sp, textDecoration = TextDecoration.Underline,
-            color = Color.Black, modifier = Modifier.padding(top = 23.dp).clickable {
-                navController.navigate("forgotPasswordScreen")
-            }
-        )
 
-        Button(onClick = {navController.navigate("createAccountScreen")}, shape = RoundedCornerShape(12.dp), colors = ButtonDefaults.buttonColors(
+        Button(onClick = {navController.navigate(Screen.Create.name)}, shape = RoundedCornerShape(12.dp), colors = ButtonDefaults.buttonColors(
             containerColor = lightGreenCustom, contentColor = Color.White
         ),
             modifier = Modifier.fillMaxWidth(0.9f).padding(top = 30.dp)
@@ -185,7 +181,7 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
             )
         }
 
-        Text(text = "Inicia sesión con otro metodo", color = Color.Gray, fontSize = 13.sp, fontWeight = FontWeight.Bold,
+        Text(text = "Inicia sesión con otro metodo", color = Color.Gray, fontSize = 20.sp, fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top=20.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -220,17 +216,6 @@ fun LoginView(navController: NavController, modifier: Modifier = Modifier,
         }
         }
 
-        Row (horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment= Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()) {
-            Row(horizontalArrangement = Arrangement.Start) {
-                Image(painter = grcircle, contentDescription = "CurrentScreen", contentScale = ContentScale.FillWidth,
-                    modifier = Modifier.width(30.dp).padding(start = 20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Image(painter = circle, contentDescription = "NextScreen",
-                    modifier = Modifier.width(21.dp).padding(start = 10.dp)
-                )
             }
         }
-    }
-}
+

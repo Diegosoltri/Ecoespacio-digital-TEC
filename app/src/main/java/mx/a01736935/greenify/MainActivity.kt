@@ -212,9 +212,6 @@ class MainActivity : ComponentActivity() {
                         CameraView(navController = navController)
                     }
 
-                    composable(Screen.ForgotPasswordScreen.name) {
-                        ForgotPasswordView(navController = navController)
-                    }
                 }
 
 

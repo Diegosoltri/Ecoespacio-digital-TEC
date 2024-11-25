@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +33,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import mx.a01736935.greenify.MainActivity
+import mx.a01736935.greenify.R
 import java.io.File
 import java.io.FileOutputStream
 import mx.a01736935.greenify.presentation.UserId
@@ -39,6 +42,7 @@ import mx.a01736935.greenify.presentation.getStarsFromFirestore
 import mx.a01736935.greenify.presentation.getUserNameFromFirestore
 import mx.a01736935.greenify.presentation.savePhraseToFirestore
 import mx.a01736935.greenify.presentation.saveUserNameToFirestore
+import okio.IOException
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +53,17 @@ fun ProfilePage(navController: NavController) {
     val userIdInstance = UserId()
     val userId = userIdInstance.getUserId()
     var estrellasActuales by remember { mutableIntStateOf(0) }
+
+    var showImageSelector by remember { mutableStateOf(false) }
+    var profileImageRes by remember { mutableStateOf(R.drawable.bicicleta) } // Imagen inicial
+
+
+    val predefinedImages = listOf(
+        R.drawable.bicicleta,
+        R.drawable.camina,
+        R.drawable.carro
+    )
+    val profileImageUri by remember { mutableStateOf<Uri?>(null) }
 
     var phrase by remember { mutableStateOf("Frase por defecto...") }
     var userName by remember { mutableStateOf("Cargando...") }
@@ -72,6 +87,46 @@ fun ProfilePage(navController: NavController) {
                 estrellasActuales = estrellas ?: 0 // Si no se encuentra, mostrar 0
             }
         }
+    }
+
+
+    if (showImageSelector) {
+        // Diálogo para seleccionar una imagen
+        AlertDialog(
+            onDismissRequest = { showImageSelector = false },
+            title = { Text("Selecciona una imagen") },
+            text = {
+                Column {
+                    predefinedImages.forEach { imageRes ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .clickable {
+                                    profileImageRes = imageRes // Actualiza la imagen seleccionada
+                                    showImageSelector = false // Cierra el selector
+                                },
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(imageRes),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Imagen ${predefinedImages.indexOf(imageRes) + 1}")
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                Button(onClick = { showImageSelector = false }) {
+                    Text("Cerrar")
+                }
+            }
+        )
     }
 
     // Mostrar diálogo para editar nombre de usuario y frase
@@ -98,7 +153,8 @@ fun ProfilePage(navController: NavController) {
                     )
 
                     Button(onClick = {
-                        if (newUserName.isNotEmpty() && newPhrase.isNotEmpty()) {
+                        if (
+                            newUserName.isNotEmpty() && newPhrase.isNotEmpty()) {
                             userName = newUserName
                             phrase = newPhrase
                             userId?.let {
@@ -107,8 +163,26 @@ fun ProfilePage(navController: NavController) {
                             }
                             showDialog = false
                         }
-                    }) {
+                    },
+
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF4CAF50),
+                            contentColor = Color.White
+                        )
+
+                    ) {
                         Text("Actualizar")
+                    }
+                    Spacer(modifier = Modifier
+                        .padding(top = 8.dp))
+
+                    Button(
+                        onClick = {
+                            logout(context, navController)
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    ) {
+                        Text("Cerrar sesión", color = Color.White)
                     }
                 }
             }
@@ -142,12 +216,14 @@ fun ProfilePage(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = rememberAsyncImagePainter("https://static.vecteezy.com/system/resources/previews/036/053/527/non_2x/ai-generated-cartoon-illustration-of-a-tree-free-png.png"),
+                painter = painterResource(profileImageRes),
                 contentDescription = "Foto de perfil",
                 modifier = Modifier
                     .size(280.dp)
                     .clip(CircleShape)
+                    .clickable { showImageSelector = true } // Abre el selector
             )
+
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = userName, fontSize = 30.sp, color = Color.Black)
@@ -219,14 +295,27 @@ fun ProfilePage(navController: NavController) {
 
 // Función para compartir captura de pantalla
 fun shareScreenshot(context: Context) {
-    val rootView = (context as MainActivity).window.decorView.rootView
+    val rootView = (context as? MainActivity)?.window?.decorView?.rootView
+    if (rootView == null || rootView.width <= 0 || rootView.height <= 0) {
+        Toast.makeText(context, "No se pudo capturar la pantalla", Toast.LENGTH_SHORT).show()
+        return
+    }
+
     val bitmap = Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     rootView.draw(canvas)
 
     val file = File(context.cacheDir, "screenshot.png")
-    FileOutputStream(file).use {
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+    try {
+        FileOutputStream(file).use {
+            if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)) {
+                throw IOException("Error al comprimir el bitmap")
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        Toast.makeText(context, "Error al guardar la captura de pantalla", Toast.LENGTH_SHORT).show()
+        return
     }
 
     val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
@@ -236,6 +325,11 @@ fun shareScreenshot(context: Context) {
         type = "image/png"
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
-    context.startActivity(Intent.createChooser(shareIntent, "Compartir imagen"))
-}
 
+    try {
+        context.startActivity(Intent.createChooser(shareIntent, "Compartir imagen"))
+    } catch (e: Exception) {
+        e.printStackTrace()
+        Toast.makeText(context, "Error al compartir la captura", Toast.LENGTH_SHORT).show()
+    }
+}

@@ -29,11 +29,11 @@ fun BottomButtonBar(
 
 ) {
     val buttons = listOf(
-        Pair("Home", R.drawable.ic_home),
-        Pair("Article",  R.drawable.ic_article),
-        Pair("Camera",  R.drawable.ic_camera),
-        Pair("Badges",  R.drawable.star),
-        Pair("Profile",  R.drawable.ic_profile),
+        Pair("Casa", R.drawable.ic_home),
+        Pair("Tips",  R.drawable.ic_article),
+        Pair("Camara",  R.drawable.ic_camera),
+        Pair("Misiones",  R.drawable.star),
+        Pair("Perfil",  R.drawable.ic_profile),
     )
 
 
@@ -70,10 +70,10 @@ fun BottomButtonBar(
 }
 fun onNavigate(button: String, navController: NavHostController) {
     when (button) {
-        "Home" -> navController.navigate(Screen.Home.name)
-        "Article" -> navController.navigate(Screen.ArticleScreen.name)
-        "Camera" -> navController.navigate(Screen.CameraScreen.name)
-        "Badges" -> navController.navigate(Screen.BadgesScreen.name)
-        "Profile" -> navController.navigate(Screen.ProfilePage.name)
+        "Casa" -> navController.navigate(Screen.Home.name)
+        "Tips" -> navController.navigate(Screen.ArticleScreen.name)
+        "Camara" -> navController.navigate(Screen.CameraScreen.name)
+        "Misiones" -> navController.navigate(Screen.BadgesScreen.name)
+        "Perfil" -> navController.navigate(Screen.ProfilePage.name)
     }
 }

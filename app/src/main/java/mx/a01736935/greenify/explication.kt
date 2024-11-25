@@ -77,7 +77,7 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
         )
         Text(
             text = "Únete a Greenify, la red social que te desafía a cuidar el planeta." +
-                    "Participa en retos ambientales, conecta con personas comprometidas y transforma tus acciones en un impacto positivo.",
+                    "Participa en retos ambientales y transforma tus acciones en un impacto positivo.",
             textAlign = TextAlign.Center,
             color = Color.Gray,
             fontWeight = FontWeight.SemiBold,
@@ -102,7 +102,7 @@ fun Initio(navController: NavController, modifier: Modifier = Modifier, ) {
                 .width(60.dp)
                 .padding(bottom = 30.dp)
                 .clickable {
-                    navController.navigate(Screen.Login.name)
+                    navController.navigate(Screen.Create.name)
                 })
         }
 
